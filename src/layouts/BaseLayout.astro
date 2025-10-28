@@ -8,6 +8,7 @@ const {title} = Astro.props
 <head>
     <meta charset="utf-8" />
     <title> {title} </title>
+    <base href={import.meta.env.BASE_URL} />
 </head>
 <body>
     <Header />
