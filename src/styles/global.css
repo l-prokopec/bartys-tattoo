@@ -36,7 +36,7 @@ body {
     background-color: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-body);
-    font-size: 1rem;
+    font-size: clamp(1rem, 0.95rem + 0.4vw, 1.15rem);
     line-height: 1.65;
     letter-spacing: 0.015em;
 }
@@ -90,7 +90,7 @@ h2 {
 }
 
 nav {
-    width: var(--content-width);
+    width: min(960px, calc(100% - 1.25rem));
     margin: var(--spacing-md) auto 0;
     padding: var(--spacing-sm) var(--spacing-sm);
     border-radius: 999px;
@@ -112,7 +112,7 @@ nav ul {
 nav a {
     text-decoration: none;
     font-family: var(--font-heading);
-    font-size: 0.95rem;
+    font-size: clamp(0.9rem, 0.85rem + 0.4vw, 1.1rem);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     padding: 0.65rem 1.5rem;
@@ -149,4 +149,94 @@ img, video {
 ::selection {
     background: var(--color-accent);
     color: #050506;
+}
+
+@media (max-width: 900px) {
+    :root {
+        --content-width: min(720px, calc(100% - 1.5rem));
+        --spacing-lg: 2.5rem;
+        --spacing-md: 1.25rem;
+    }
+
+    main {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+
+    nav {
+        padding: var(--spacing-xs);
+        border-radius: 32px;
+    }
+
+    nav ul {
+        gap: var(--spacing-xs);
+        justify-content: center;
+    }
+
+    nav a {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 560px) {
+    :root {
+        --content-width: calc(100% - 0.75rem);
+        --spacing-lg: 2rem;
+        --spacing-md: 1rem;
+        --spacing-sm: 0.85rem;
+        --spacing-xs: 0.45rem;
+    }
+
+    main {
+        margin: var(--spacing-md) auto;
+        padding: var(--spacing-md);
+        border-radius: 16px;
+    }
+
+    nav {
+        width: calc(100% - 0.35rem);
+        border-radius: 26px;
+        padding: var(--spacing-sm);
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-xs);
+    }
+
+    nav li {
+        width: 100%;
+    }
+
+    nav a {
+        width: 100%;
+        text-align: center;
+        padding: 1rem 1.25rem;
+        letter-spacing: 0.05em;
+        font-size: 1.15rem;
+    }
+
+    h1 {
+        font-size: clamp(1.75rem, 8vw, 2.35rem);
+    }
+
+    h2 {
+        font-size: clamp(1.1rem, 6vw, 1.5rem);
+    }
+
+    p {
+        font-size: 1.07rem;
+    }
+}
+
+@media (max-width: 380px) {
+    nav {
+        width: calc(100% - 0.15rem);
+        padding: var(--spacing-sm) var(--spacing-xs);
+    }
+
+    nav a {
+        font-size: 1.2rem;
+        padding: 1rem;
+    }
 }
