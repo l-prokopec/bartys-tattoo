@@ -2,12 +2,52 @@
 
 ---
 
-<nav>
-    <ul>
-        <li><a href="./">Úvodní stránka</a></li>
-        <li><a href="./about">O mně</a></li>
-        <li><a href="./studio/"> Studio</a></li>
-        <li><a href="./portfolio/"> Portfolio</a></li>
-        <li><a href="./merch/"> Merch</a></li>
-    </ul>
-</nav>
+<header class="site-header">
+    <nav class="site-nav" data-open="false">
+        <ul>
+            <li><a href="./">Úvodní stránka</a></li>
+            <li><a href="./about">O mně</a></li>
+            <li><a href="./studio/"> Studio</a></li>
+            <li><a href="./portfolio/"> Portfolio</a></li>
+            <li><a href="./merch/"> Merch</a></li>
+        </ul>
+    </nav>
+    <button class="nav-toggle" type="button" aria-label="Otevřít navigaci" aria-expanded="false">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+    </button>
+</header>
+
+<script type="module">
+    const nav = document.querySelector('.site-nav');
+    const button = document.querySelector('.nav-toggle');
+
+    if (nav && button) {
+        const setOpen = (isOpen) => {
+            nav.dataset.open = isOpen ? 'true' : 'false';
+            button.setAttribute('aria-expanded', String(isOpen));
+        };
+
+        const handleResize = () => {
+            const shouldBeOpen = window.innerWidth > 900;
+            setOpen(shouldBeOpen);
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        button.addEventListener('click', () => {
+            const isOpen = nav.dataset.open === 'true';
+            setOpen(!isOpen);
+        });
+
+        nav.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 900) {
+                    setOpen(false);
+                }
+            });
+        });
+    }
+</script>

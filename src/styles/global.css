@@ -90,17 +90,28 @@ h2 {
     color: var(--color-muted);
 }
 
-nav {
+.site-header {
     width: min(960px, calc(100% - 1.25rem));
-    margin: var(--spacing-md) auto 0;
-    padding: var(--spacing-sm) var(--spacing-sm);
+    margin: var(--spacing-md) auto var(--spacing-sm);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    position: relative;
+}
+
+.site-nav {
+    width: 100%;
+    margin: 0;
+    padding: var(--spacing-sm);
     border-radius: 999px;
     background: rgba(6, 6, 7, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
-nav ul {
+.site-nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -110,7 +121,7 @@ nav ul {
     flex-wrap: wrap;
 }
 
-nav a {
+.site-nav a {
     text-decoration: none;
     font-family: var(--font-heading);
     font-size: clamp(0.88rem, 0.86rem + 0.3vw, 1.05rem);
@@ -122,11 +133,20 @@ nav a {
     transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
-nav a:hover,
-nav a:focus-visible {
+.site-nav a:hover,
+.site-nav a:focus-visible {
     background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
     color: #050506;
     transform: translateY(-1px);
+}
+
+.nav-toggle {
+    display: none;
+    margin-left: auto;
+    align-self: flex-start;
+    background: rgba(6, 6, 7, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
 }
 
 a {
@@ -159,22 +179,81 @@ img, video {
         --spacing-md: 1.25rem;
     }
 
+    .site-header {
+        padding: 2.8rem 3.5rem 0.5rem 0;
+    }
+
     main {
         padding: var(--spacing-lg) var(--spacing-md);
     }
 
-    nav {
-        padding: var(--spacing-xs);
-        border-radius: 32px;
-    }
-
-    nav ul {
-        gap: var(--spacing-xs);
+    .nav-toggle {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
+        position: absolute;
+        top: 0.6rem;
+        right: 0.6rem;
+        gap: 0.3rem;
+        padding: 0.55rem 0.85rem;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: transform 220ms ease, background 160ms ease;
+        z-index: 2;
     }
 
-    nav a {
-        font-size: 0.9rem;
+    .nav-toggle:hover {
+        transform: translateY(-1px);
+    }
+
+    .nav-toggle:focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 3px;
+    }
+
+    .nav-toggle__bar {
+        display: block;
+        width: 1.35rem;
+        height: 2px;
+        background: var(--color-text);
+        border-radius: 999px;
+    }
+
+    .site-nav {
+        width: 100%;
+        border-radius: 26px;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-0.65rem);
+        transition: max-height 360ms ease, opacity 360ms ease, padding 360ms ease, transform 360ms ease, background 260ms ease;
+        pointer-events: none;
+        flex: 1 1 100%;
+    }
+
+    .site-nav[data-open='true'] {
+        padding: var(--spacing-sm);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 26px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+        background: rgba(6, 6, 7, 0.92);
+        max-height: 600px;
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+    }
+
+    .site-nav ul {
+        gap: var(--spacing-xs);
+    }
+
+    .site-nav a {
+        font-size: clamp(0.9rem, 0.85rem + 0.25vw, 1.05rem);
     }
 }
 
@@ -193,23 +272,22 @@ img, video {
         border-radius: 16px;
     }
 
-    nav {
-        width: calc(100% - 0.35rem);
+    .site-nav[data-open='true'] {
         border-radius: 26px;
         padding: var(--spacing-sm);
     }
 
-    nav ul {
+    .site-nav ul {
         flex-direction: column;
         align-items: stretch;
         gap: var(--spacing-xs);
     }
 
-    nav li {
+    .site-nav li {
         width: 100%;
     }
 
-    nav a {
+    .site-nav a {
         width: 100%;
         text-align: center;
         padding: 1rem 1.25rem;
@@ -231,12 +309,11 @@ img, video {
 }
 
 @media (max-width: 380px) {
-    nav {
-        width: calc(100% - 0.15rem);
+    .site-nav[data-open='true'] {
         padding: var(--spacing-sm) var(--spacing-xs);
     }
 
-    nav a {
+    .site-nav[data-open='true'] a {
         font-size: 1.13rem;
         padding: 1rem;
     }
