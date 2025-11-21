@@ -36,9 +36,9 @@ body {
     background-color: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-body);
-    font-size: clamp(1rem, 0.95rem + 0.4vw, 1.15rem);
-    line-height: 1.65;
-    letter-spacing: 0.015em;
+    font-size: clamp(0.95rem, 0.9rem + 0.35vw, 1.05rem);
+    line-height: 1.55;
+    letter-spacing: 0.01em;
 }
 
 body::before {
@@ -66,6 +66,7 @@ main {
 p {
     margin-bottom: var(--spacing-md);
     color: var(--color-text);
+    font-size: clamp(0.95rem, 0.92rem + 0.3vw, 1.05rem);
 }
 
 p:last-child {
@@ -112,7 +113,7 @@ nav ul {
 nav a {
     text-decoration: none;
     font-family: var(--font-heading);
-    font-size: clamp(0.9rem, 0.85rem + 0.4vw, 1.1rem);
+    font-size: clamp(0.88rem, 0.86rem + 0.3vw, 1.05rem);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     padding: 0.65rem 1.5rem;
@@ -213,7 +214,7 @@ img, video {
         text-align: center;
         padding: 1rem 1.25rem;
         letter-spacing: 0.05em;
-        font-size: 1.15rem;
+        font-size: 1.03rem;
     }
 
     h1 {
@@ -225,7 +226,7 @@ img, video {
     }
 
     p {
-        font-size: 1.07rem;
+        font-size: 0.99rem;
     }
 }
 
@@ -236,7 +237,7 @@ img, video {
     }
 
     nav a {
-        font-size: 1.2rem;
+        font-size: 1.13rem;
         padding: 1rem;
     }
 }
