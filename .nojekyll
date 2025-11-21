@@ -1,0 +1,3 @@
+#
+# Disable Jekyll on GitHub Pages so `_astro` assets get served.
+#
