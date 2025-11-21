@@ -1,0 +1,4 @@
+#
+# Prevent GitHub Pages from processing the output as a Jekyll site.
+# Needed so Astro's `_astro` directory with hashed assets is served.
+#
