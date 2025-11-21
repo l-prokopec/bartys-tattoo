@@ -1,6 +1,8 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><title> Bartys Tattoo - Studio </title><meta name="viewport" content="width=device-width, initial-scale=1.0"><base href="/bartys-tattoo/"><link rel="stylesheet" href="/bartys-tattoo/_astro/about.Dz3PMeT4.css"></head> <body> <header class="site-header"> <nav class="site-nav" data-open="false"> <ul> <li><a href="/bartys-tattoo/">Úvodní stránka</a></li> <li><a href="/bartys-tattoo/about/">O mně</a></li> <li><a href="/bartys-tattoo/studio/">Studio</a></li> <li><a href="/bartys-tattoo/portfolio/">Portfolio</a></li> <li><a href="/bartys-tattoo/merch/">Merch</a></li> </ul> </nav> <button class="nav-toggle" type="button" aria-label="Otevřít navigaci" aria-expanded="false"> <span class="nav-toggle__bar"></span> <span class="nav-toggle__bar"></span> <span class="nav-toggle__bar"></span> </button> </header> <script type="module">
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><title> Bartys Tattoo - Studio </title><meta name="viewport" content="width=device-width, initial-scale=1.0"><base href="/bartys-tattoo/"><link rel="stylesheet" href="/bartys-tattoo/_astro/about.HAr04SC9.css"></head> <body> <header class="site-header"> <nav class="site-nav" data-open="false"> <ul> <li><a href="/bartys-tattoo/">Úvodní stránka</a></li> <li><a href="/bartys-tattoo/about/">O mně</a></li> <li><a href="/bartys-tattoo/studio/">Studio</a></li> <li><a href="/bartys-tattoo/portfolio/">Portfolio</a></li> <li><a href="/bartys-tattoo/merch/">Merch</a></li> </ul> </nav> <button class="nav-toggle" type="button" aria-label="Otevřít navigaci" aria-expanded="false"> <span class="nav-toggle__bar"></span> <span class="nav-toggle__bar"></span> <span class="nav-toggle__bar"></span> </button> </header> <script type="module">
     const nav = document.querySelector('.site-nav');
     const button = document.querySelector('.nav-toggle');
+    const MOBILE_BREAKPOINT = 900;
+    const CLOSE_DELAY = 380;
 
     if (nav && button) {
         const setOpen = (isOpen) => {
@@ -8,9 +10,10 @@
             button.setAttribute('aria-expanded', String(isOpen));
         };
 
+        const isMobile = () => window.innerWidth <= MOBILE_BREAKPOINT;
+
         const handleResize = () => {
-            const shouldBeOpen = window.innerWidth > 900;
-            setOpen(shouldBeOpen);
+            setOpen(!isMobile());
         };
 
         handleResize();
@@ -23,8 +26,8 @@
 
         nav.querySelectorAll('a').forEach((link) => {
             link.addEventListener('click', () => {
-                if (window.innerWidth <= 900) {
-                    setOpen(false);
+                if (isMobile()) {
+                    window.setTimeout(() => setOpen(false), CLOSE_DELAY);
                 }
             });
         });
