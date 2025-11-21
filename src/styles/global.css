@@ -168,15 +168,26 @@ a:focus-visible {
 @media (hover: none) and (pointer: coarse) {
     .site-nav a {
         padding: 0.75rem 1.25rem;
+        position: relative;
+        overflow: hidden;
     }
 
     .site-nav a:focus,
     .site-nav a:focus-visible,
     .site-nav a:active {
-        background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
         color: #050506;
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
         transform: translateY(-1px);
+    }
+
+    .site-nav a:focus::after,
+    .site-nav a:focus-visible::after,
+    .site-nav a:active::after {
+        content: '';
+        position: absolute;
+        inset: 0.1rem;
+        border-radius: 999px;
+        background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
+        z-index: -1;
     }
 }
 
