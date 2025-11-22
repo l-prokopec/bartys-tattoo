@@ -145,6 +145,11 @@ h2 {
     transform: translateY(-1px);
 }
 
+.nav-toggle.is-pressed {
+    background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
+    color: #050506;
+}
+
 .nav-toggle {
     display: none;
     margin-left: auto;
@@ -154,6 +159,7 @@ h2 {
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
     outline: none;
     -webkit-tap-highlight-color: transparent;
+    transition: background 160ms ease, color 160ms ease;
 }
 
 a {

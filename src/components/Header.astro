@@ -37,12 +37,22 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             setOpen(!isMobile());
         };
 
+        const releasePress = () => button.classList.remove('is-pressed');
+        const applyPress = () => button.classList.add('is-pressed');
+
+        button.addEventListener('pointerdown', applyPress);
+        button.addEventListener('pointerup', releasePress);
+        button.addEventListener('pointerleave', releasePress);
+        button.addEventListener('pointercancel', releasePress);
+        button.addEventListener('blur', releasePress);
+
         handleResize();
         window.addEventListener('resize', handleResize);
 
         button.addEventListener('click', () => {
             const isOpen = nav.dataset.open === 'true';
             setOpen(!isOpen);
+            releasePress();
         });
 
         nav.querySelectorAll('a').forEach((link) => {
