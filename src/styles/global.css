@@ -136,6 +136,15 @@ h2 {
     -webkit-tap-highlight-color: transparent;
 }
 
+.site-nav a:hover,
+.site-nav a:focus,
+.site-nav a:focus-visible,
+.site-nav a:active {
+    background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
+    color: #050506;
+    transform: translateY(-1px);
+}
+
 .nav-toggle {
     display: none;
     margin-left: auto;
@@ -156,29 +165,9 @@ a:focus-visible {
     color: var(--color-accent-alt);
 }
 
-@media (hover: hover) and (pointer: fine) {
-    .site-nav a:hover,
-    .site-nav a:focus-visible {
-        background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
-        color: #050506;
-        transform: translateY(-1px);
-    }
-}
-
 @media (hover: none) and (pointer: coarse) {
     .site-nav a {
         padding: 0.75rem 1.25rem;
-        border: 1px solid transparent;
-        background-clip: padding-box;
-    }
-
-    .site-nav a:focus,
-    .site-nav a:focus-visible,
-    .site-nav a:active {
-        background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
-        color: #050506;
-        transform: translateY(-1px);
-        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
     }
 }
 
