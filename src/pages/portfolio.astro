@@ -47,19 +47,35 @@ const realismImages = Object.values(
           Více
         </button>
 
-        <div class="portfolio-gallery">
-            <div class="portfolio-gallery__track">
-                {trashPolkaImages.map((image, index) => (
-                    <figure class="portfolio-gallery__item">
-                        <img
-                            src={image.default.src}
-                            alt={`Trash Polka tetování ${index + 1}`}
-                            loading="lazy"
-                            class="portfolio-gallery__image"
-                        />
-                    </figure>
-                ))}
-            </div>
+                <div class="portfolio-gallery">
+          <button
+            class="portfolio-gallery__arrow portfolio-gallery__arrow--prev"
+            type="button"
+            aria-label="Předchozí obrázek"
+          >
+            ←
+          </button>
+
+          <div class="portfolio-gallery__track">
+            {trashPolkaImages.map((image, index) => (
+              <figure class="portfolio-gallery__item">
+                <img
+                  src={image.default.src}
+                  alt={`Trash Polka tetování ${index + 1}`}
+                  loading="lazy"
+                  class="portfolio-gallery__image"
+                />
+              </figure>
+            ))}
+          </div>
+
+          <button
+            class="portfolio-gallery__arrow portfolio-gallery__arrow--next"
+            type="button"
+            aria-label="Další obrázek"
+          >
+            →
+          </button>
         </div>
       </div>
     </article>
@@ -89,39 +105,116 @@ const realismImages = Object.values(
           Více
         </button>
 
-        <div class="portfolio-gallery">
-            <div class="portfolio-gallery__track">
-                {realismImages.map((image, index) => (
-                    <figure class="portfolio-gallery__item">
-                        <img
-                            src={image.default.src}
-                            alt={`Realistické tetování ${index + 1}`}
-                            loading="lazy"
-                            class="portfolio-gallery__image"
-                        />
-                    </figure>
-                ))}
-            </div>
+                <div class="portfolio-gallery">
+          <button
+            class="portfolio-gallery__arrow portfolio-gallery__arrow--prev"
+            type="button"
+            aria-label="Předchozí obrázek"
+          >
+            ←
+          </button>
+
+          <div class="portfolio-gallery__track">
+            {realismImages.map((image, index) => (
+              <figure class="portfolio-gallery__item">
+                <img
+                  src={image.default.src}
+                  alt={`Realistické tetování ${index + 1}`}
+                  loading="lazy"
+                  class="portfolio-gallery__image"
+                />
+              </figure>
+            ))}
+          </div>
+
+          <button
+            class="portfolio-gallery__arrow portfolio-gallery__arrow--next"
+            type="button"
+            aria-label="Další obrázek"
+          >
+            →
+          </button>
         </div>
       </div>
     </article>
   </section>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.portfolio-style').forEach((section) => {
-        const description = section.querySelector('.portfolio-description');
-        const toggleButton = section.querySelector('.portfolio-toggle');
+    <script is:inline>
+    document.addEventListener('DOMContentLoaded', function () {
+      // --- Rozbalování / sbalování textu ---
+      document.querySelectorAll('.portfolio-style').forEach(function (section) {
+        var description = section.querySelector('.portfolio-description');
+        var toggleButton = section.querySelector('.portfolio-toggle');
 
         if (!description || !toggleButton) return;
         if (!(description instanceof HTMLElement)) return;
         if (!(toggleButton instanceof HTMLButtonElement)) return;
 
-        toggleButton.addEventListener('click', () => {
-          const isExpanded = description.dataset.expanded === 'true';
+        toggleButton.addEventListener('click', function () {
+          var isExpanded = description.dataset.expanded === 'true';
           description.dataset.expanded = isExpanded ? 'false' : 'true';
           toggleButton.textContent = isExpanded ? 'Více' : 'Méně';
         });
+      });
+
+      // --- Šipky pro galerii (desktop/tablet) ---
+      document.querySelectorAll('.portfolio-gallery').forEach(function (gallery) {
+        var track = gallery.querySelector('.portfolio-gallery__track');
+        var prevBtn = gallery.querySelector('.portfolio-gallery__arrow--prev');
+        var nextBtn = gallery.querySelector('.portfolio-gallery__arrow--next');
+
+        if (!track || !prevBtn || !nextBtn) return;
+        if (!(track instanceof HTMLElement)) return;
+
+        var items = track.querySelectorAll('.portfolio-gallery__item');
+        if (items.length <= 1) {
+          prevBtn.setAttribute('hidden', 'true');
+          nextBtn.setAttribute('hidden', 'true');
+          return;
+        }
+
+        function updateArrows() {
+          var maxScroll = track.scrollWidth - track.clientWidth;
+          var current = track.scrollLeft;
+
+          if (current <= 2) {
+            prevBtn.setAttribute('hidden', 'true');
+          } else {
+            prevBtn.removeAttribute('hidden');
+          }
+
+          if (current >= maxScroll - 2) {
+            nextBtn.setAttribute('hidden', 'true');
+          } else {
+            nextBtn.removeAttribute('hidden');
+          }
+        }
+
+        function scrollByOne(direction) {
+          // posun o cca "jednu fotku" – 80 % šířky tracku
+          var amount = track.clientWidth * 0.65;
+          track.scrollBy({
+            left: direction * amount,
+            behavior: 'smooth'
+          });
+        }
+
+        prevBtn.addEventListener('click', function () {
+          scrollByOne(-1);
+        });
+
+        nextBtn.addEventListener('click', function () {
+          scrollByOne(1);
+        });
+
+        track.addEventListener('scroll', function () {
+          // při ručním posunu / swipu aktualizujeme viditelnost šipek
+          updateArrows();
+        });
+
+        // inicializace po načtení
+        window.addEventListener('load', updateArrows);
+        updateArrows();
       });
     });
   </script>

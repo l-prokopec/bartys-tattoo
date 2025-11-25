@@ -469,8 +469,72 @@ img, video {
 .portfolio-gallery__track::-webkit-scrollbar {
     height: 0;
 }
+
+/* Plynulý scroll při kliknutí na šipky */
 .portfolio-gallery__track {
-    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+/* Šipky – vizuálně podobné jako portfolio-toggle / nav odkazy */
+.portfolio-gallery__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(6, 6, 7, 0.9);
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        background 160ms ease,
+        color 160ms ease,
+        transform 160ms ease,
+        box-shadow 160ms ease;
+    -webkit-tap-highlight-color: transparent;
+    z-index: 2;
+}
+
+/* pozice vlevo/vpravo */
+.portfolio-gallery__arrow--prev {
+    left: -0.4rem;
+}
+
+.portfolio-gallery__arrow--next {
+    right: -0.4rem;
+}
+
+/* Stejný „glow“ efekt jako u tlačítek a nav odkazů */
+.portfolio-gallery__arrow:hover,
+.portfolio-gallery__arrow:focus-visible {
+    background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
+    color: #050506;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+}
+
+.portfolio-gallery__arrow:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* Když je šipka „skrytá“ přes JS, nechceme ji zobrazovat */
+.portfolio-gallery__arrow[hidden] {
+    display: none;
+}
+
+/* Na mobilech šipky vůbec neukazuj – zůstane jen swipe */
+@media (max-width: 900px) {
+    .portfolio-gallery__arrow {
+        display: none;
+    }
 }
 
 /* Jeden „slide“ */
@@ -481,6 +545,13 @@ img, video {
     position: relative;
 }
 
+@media (min-width: 900px) {
+    .portfolio-gallery__item {
+        flex-basis: 60%;
+        max-width: 60%;
+    }
+}
+
 .portfolio-gallery__image {
     width: 100%;
     height: 100%;
@@ -488,14 +559,6 @@ img, video {
     border-radius: 16px;
     object-fit: cover;
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
-}
-
-/* Na větších displejích o něco menší šířka, ať jich je víc vidět */
-@media (min-width: 900px) {
-    .portfolio-gallery__item {
-        flex-basis: 45%;
-        max-width: 45%;
-    }
 }
 
 /* Placeholder box – později nahradíš <img> */
