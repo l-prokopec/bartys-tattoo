@@ -97,6 +97,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         const toggleButton = section.querySelector('.portfolio-toggle');
 
         if (!description || !toggleButton) return;
+        if (!(description instanceof HTMLElement)) return;
+        if (!(toggleButton instanceof HTMLButtonElement)) return;
 
         toggleButton.addEventListener('click', () => {
           const isExpanded = description.dataset.expanded === 'true';
