@@ -472,6 +472,7 @@ img, video {
 
 /* Plynulý scroll při kliknutí na šipky */
 .portfolio-gallery__track {
+    scrollbar-width: none;
     scroll-behavior: smooth;
 }
 
