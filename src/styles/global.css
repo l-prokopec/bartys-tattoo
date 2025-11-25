@@ -481,6 +481,15 @@ img, video {
     position: relative;
 }
 
+.portfolio-gallery__image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 16px;
+    object-fit: cover;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
+}
+
 /* Na větších displejích o něco menší šířka, ať jich je víc vidět */
 @media (min-width: 900px) {
     .portfolio-gallery__item {

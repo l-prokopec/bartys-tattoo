@@ -1,9 +1,26 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import type { ImageMetadata } from 'astro';
+
+const trashPolkaImages = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>(
+    '../assets/portfolio/trash-polka/*.{png,jpg,jpeg,webp,avif}',
+    { eager: true }
+  )
+);
+
+const realismImages = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>(
+    '../assets/portfolio/realistica/*.{png,jpg,jpeg,webp,avif}',
+    { eager: true }
+  )
+);
 ---
+
 
 <BaseLayout title="Bartys Tattoo - Portfolio">
   <section class="portfolio-section">
+    
     <!-- Trash Polka -->
     <article class="portfolio-style">
       <header class="portfolio-style__header">
@@ -31,18 +48,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </button>
 
         <div class="portfolio-gallery">
-          <div class="portfolio-gallery__track">
-            <!-- Placeholdery – později nahradíš <img/> -->
-            <figure class="portfolio-gallery__item">
-              <div class="portfolio-gallery__placeholder">Trash Polka #1</div>
-            </figure>
-            <figure class="portfolio-gallery__item">
-              <div class="portfolio-gallery__placeholder">Trash Polka #2</div>
-            </figure>
-            <figure class="portfolio-gallery__item">
-              <div class="portfolio-gallery__placeholder">Trash Polka #3</div>
-            </figure>
-          </div>
+            <div class="portfolio-gallery__track">
+                {trashPolkaImages.map((image, index) => (
+                    <figure class="portfolio-gallery__item">
+                        <img
+                            src={image.default.src}
+                            alt={`Trash Polka tetování ${index + 1}`}
+                            loading="lazy"
+                            class="portfolio-gallery__image"
+                        />
+                    </figure>
+                ))}
+            </div>
         </div>
       </div>
     </article>
@@ -73,18 +90,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </button>
 
         <div class="portfolio-gallery">
-          <div class="portfolio-gallery__track">
-            <!-- Placeholdery – později nahradíš <img/> -->
-            <figure class="portfolio-gallery__item">
-              <div class="portfolio-gallery__placeholder">Realistika #1</div>
-            </figure>
-            <figure class="portfolio-gallery__item">
-              <div class="portfolio-gallery__placeholder">Realistika #2</div>
-            </figure>
-            <figure class="portfolio-gallery__item">
-              <div class="portfolio-gallery__placeholder">Realistika #3</div>
-            </figure>
-          </div>
+            <div class="portfolio-gallery__track">
+                {realismImages.map((image, index) => (
+                    <figure class="portfolio-gallery__item">
+                        <img
+                            src={image.default.src}
+                            alt={`Realistické tetování ${index + 1}`}
+                            loading="lazy"
+                            class="portfolio-gallery__image"
+                        />
+                    </figure>
+                ))}
+            </div>
         </div>
       </div>
     </article>
