@@ -25,6 +25,16 @@
     box-sizing: border-box;
 }
 
+/* Skryj scrollbary na všech prvcích */
+* {
+    scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -548,8 +558,8 @@ img, video {
 
 @media (min-width: 900px) {
     .portfolio-gallery__item {
-        flex-basis: 60%;
-        max-width: 60%;
+        flex-basis: 50%;
+        max-width: 50%;
     }
 }
 
