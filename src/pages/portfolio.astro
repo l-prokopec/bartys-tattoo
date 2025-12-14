@@ -150,10 +150,22 @@ const realismImages = Object.values(
         if (!(description instanceof HTMLElement)) return;
         if (!(toggleButton instanceof HTMLButtonElement)) return;
 
+        var releasePress = function () {
+          toggleButton.classList.remove('is-pressed');
+        };
+
+        toggleButton.addEventListener('pointerdown', function () {
+          toggleButton.classList.add('is-pressed');
+        });
+        ['pointerup', 'pointerleave', 'pointercancel', 'blur'].forEach(function (eventName) {
+          toggleButton.addEventListener(eventName, releasePress);
+        });
+
         toggleButton.addEventListener('click', function () {
           var isExpanded = description.dataset.expanded === 'true';
           description.dataset.expanded = isExpanded ? 'false' : 'true';
           toggleButton.textContent = isExpanded ? 'Více' : 'Méně';
+          releasePress();
         });
       });
 

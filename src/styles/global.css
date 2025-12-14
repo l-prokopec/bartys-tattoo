@@ -457,7 +457,8 @@ img, video {
 }
 
 /* All devices: active press effect (tap/click only) */
-.portfolio-toggle:active {
+.portfolio-toggle:active,
+.portfolio-toggle.is-pressed {
     background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
     color: #050506;
     transform: translateY(-1px);
