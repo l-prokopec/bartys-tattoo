@@ -25,7 +25,7 @@
     box-sizing: border-box;
 }
 
-/* Skryj scrollbary na všech prvcích */
+/* Hide all scrollbars */
 * {
     scrollbar-width: none;
 }
@@ -363,7 +363,7 @@ img, video {
     }
 }
 
-/* ===== Portfolio – sekce stylů & texty ===== */
+/* Portfolio styles */
 
 .portfolio-section {
     display: flex;
@@ -391,14 +391,14 @@ img, video {
     gap: var(--spacing-sm);
 }
 
-/* Zkrácený text s fadeoutem */
+/* Shorten text with fadeout */
 
 .portfolio-description {
     position: relative;
     transition: max-height 220ms ease;
 }
 
-/* „Zbalený“ stav – 3 řádky + fadeout */
+/* „Hidden“ state – 3 rows + fadeout */
 .portfolio-description[data-expanded='false'] {
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -421,12 +421,12 @@ img, video {
     pointer-events: none;
 }
 
-/* Rozbalený stav – bez omezení, bez fadeoutu */
+/* Shown state */
 .portfolio-description[data-expanded='true'] {
     display: block;
 }
 
-/* Tlačítko Více / Méně */
+/* more/less button */
 
 .portfolio-toggle {
     align-self: flex-start;
@@ -458,7 +458,7 @@ img, video {
     outline-offset: 2px;
 }
 
-/* ===== Horizontální galerie ===== */
+/* Horizontal gallery */
 
 .portfolio-gallery {
     margin-top: var(--spacing-sm);
@@ -475,18 +475,18 @@ img, video {
     -webkit-overflow-scrolling: touch;
 }
 
-/* schování scrollbarů tam, kde to jde */
+/* Hide scrollbars */
 .portfolio-gallery__track::-webkit-scrollbar {
     height: 0;
 }
 
-/* Plynulý scroll při kliknutí na šipky */
+/* Smooth gallery scroll using arrows */
 .portfolio-gallery__track {
     scrollbar-width: none;
     scroll-behavior: smooth;
 }
 
-/* Šipky – vizuálně podobné jako portfolio-toggle / nav odkazy */
+/* Arrows */
 .portfolio-gallery__arrow {
     position: absolute;
     top: 50%;
@@ -514,7 +514,7 @@ img, video {
     z-index: 2;
 }
 
-/* pozice vlevo/vpravo */
+/* Arrows style */
 .portfolio-gallery__arrow--prev {
     left: -0.4rem;
 }
@@ -523,7 +523,6 @@ img, video {
     right: -0.4rem;
 }
 
-/* Stejný „glow“ efekt jako u tlačítek a nav odkazů */
 .portfolio-gallery__arrow:hover,
 .portfolio-gallery__arrow:focus-visible {
     background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
@@ -536,19 +535,19 @@ img, video {
     outline-offset: 2px;
 }
 
-/* Když je šipka „skrytá“ přes JS, nechceme ji zobrazovat */
+/* Don't show arrows hidden with JS */
 .portfolio-gallery__arrow[hidden] {
     display: none;
 }
 
-/* Na mobilech šipky vůbec neukazuj – zůstane jen swipe */
+/* No gallery arrows on mobile */
 @media (max-width: 900px) {
     .portfolio-gallery__arrow {
         display: none;
     }
 }
 
-/* Jeden „slide“ */
+/* One „slide“ */
 .portfolio-gallery__item {
     flex: 0 0 75%;
     max-width: 75%;
@@ -572,7 +571,7 @@ img, video {
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
 }
 
-/* Placeholder box – později nahradíš <img> */
+/* Placeholder img box */
 .portfolio-gallery__placeholder {
     aspect-ratio: 4 / 5;
     border-radius: 16px;
