@@ -445,13 +445,25 @@ img, video {
     -webkit-tap-highlight-color: transparent;
 }
 
-.portfolio-toggle:hover,
-.portfolio-toggle:focus-visible {
+/* Desktop/Mouse: hover + focus effects */
+@media (hover: hover) and (pointer: fine) {
+    .portfolio-toggle:hover,
+    .portfolio-toggle:focus-visible {
+        background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
+        color: #050506;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* All devices: active press effect (tap/click only) */
+.portfolio-toggle:active {
     background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
     color: #050506;
     transform: translateY(-1px);
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
 }
+
 
 .portfolio-toggle:focus-visible {
     outline: 2px solid var(--color-accent);
@@ -523,12 +535,23 @@ img, video {
     right: -0.4rem;
 }
 
-.portfolio-gallery__arrow:hover,
-.portfolio-gallery__arrow:focus-visible {
+/* Desktop/Mouse: hover + focus effects */
+@media (hover: hover) and (pointer: fine) {
+    .portfolio-gallery__arrow:hover,
+    .portfolio-gallery__arrow:focus-visible {
+        background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
+        color: #050506;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* All devices: active press effect (tap/click only) */
+.portfolio-gallery__arrow:active {
     background: linear-gradient(120deg, var(--color-accent), var(--color-accent-alt));
     color: #050506;
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
 }
+
 
 .portfolio-gallery__arrow:focus-visible {
     outline: 2px solid var(--color-accent);
@@ -589,4 +612,11 @@ img, video {
     letter-spacing: 0.12em;
     font-size: 0.72rem;
     color: var(--color-muted);
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .portfolio-toggle:focus,
+    .portfolio-gallery__arrow:focus {
+        outline: none;
+    }
 }
