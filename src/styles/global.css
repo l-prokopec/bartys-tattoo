@@ -486,7 +486,59 @@ img, video {
     padding-bottom: 0.3rem;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    align-items: center;
 }
+
+/* === Gallery "edge spacers" so first/last slide can be centered === */
+/* We define the slide width per breakpoint, then compute the needed edge space:
+   edge = (100% - slideWidth) / 2  */
+
+.portfolio-gallery__track {
+    /* default values (desktop fallback) */
+    --gallery-slide: 42%;
+    --gallery-gap: var(--spacing-md);
+
+    gap: var(--gallery-gap);
+}
+
+/* Create invisible flex items on both sides */
+.portfolio-gallery__track::before,
+.portfolio-gallery__track::after {
+    content: '';
+    flex: 0 0 calc((100% - var(--gallery-slide)) / 2);
+}
+
+/* Ensure snap calculations include that edge space */
+.portfolio-gallery__track {
+    scroll-padding-inline: calc((100% - var(--gallery-slide)) / 2);
+}
+
+/* Desktop sizes */
+@media (min-width: 900px) {
+    .portfolio-gallery__track {
+        --gallery-slide: 42%;
+        --gallery-gap: var(--spacing-md);
+    }
+
+    .portfolio-gallery__item {
+        flex-basis: var(--gallery-slide);
+        max-width: var(--gallery-slide);
+    }
+}
+
+/* Mobile sizes */
+@media (max-width: 900px) {
+    .portfolio-gallery__track {
+        --gallery-slide: 85%;
+        --gallery-gap: var(--spacing-md);
+    }
+
+    .portfolio-gallery__item {
+        flex-basis: var(--gallery-slide);
+        max-width: var(--gallery-slide);
+    }
+}
+
 
 /* Hide scrollbars */
 .portfolio-gallery__track::-webkit-scrollbar {
@@ -577,13 +629,37 @@ img, video {
     max-width: 75%;
     scroll-snap-align: center;
     position: relative;
+    margin: 0;
+    transform: scale(0.94);
+    transition: transform 240ms ease;
+    will-change: transform;
+    z-index: 0;
 }
 
 @media (min-width: 900px) {
-    .portfolio-gallery__item {
-        flex-basis: 50%;
-        max-width: 50%;
+    .portfolio-gallery__track {
+        gap: var(--spacing-md);
     }
+
+    .portfolio-gallery__item {
+        flex-basis: 42%;
+        max-width: 42%;
+    }
+}
+
+.portfolio-gallery__item.is-active {
+    transform: scale(1);
+    z-index: 2;
+}
+
+.portfolio-gallery__item.is-left {
+    transform: scale(0.85) translateX(10px);
+    z-index: 1;
+}
+
+.portfolio-gallery__item.is-right {
+    transform: scale(0.85) translateX(-10px);
+    z-index: 1;
 }
 
 .portfolio-gallery__image {
@@ -593,6 +669,18 @@ img, video {
     border-radius: 16px;
     object-fit: cover;
     box-shadow: 0 14px 30px rgba(0, 0, 0, 0.7);
+    transition: filter 240ms ease, opacity 240ms ease;
+}
+
+.portfolio-gallery__item.is-active .portfolio-gallery__image {
+    filter: none;
+    opacity: 1;
+}
+
+.portfolio-gallery__item.is-left .portfolio-gallery__image,
+.portfolio-gallery__item.is-right .portfolio-gallery__image {
+    filter: blur(3px) saturate(0.92);
+    opacity: 0.9;
 }
 
 /* Placeholder img box */

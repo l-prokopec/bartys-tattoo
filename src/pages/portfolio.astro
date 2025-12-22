@@ -169,65 +169,130 @@ const realismImages = Object.values(
         });
       });
 
-      // --- Šipky pro galerii (desktop/tablet) ---
-      document.querySelectorAll('.portfolio-gallery').forEach(function (gallery) {
+      // --- Galerie (nekonečná smyčka + "depth" efekt pro sousedy) ---
+      function getCenteredScrollLeft(trackEl, itemEl) {
+        return itemEl.offsetLeft - (trackEl.clientWidth - itemEl.clientWidth) / 2;
+      }
+
+      function jumpToItem(trackEl, itemEl) {
+        trackEl.scrollLeft = getCenteredScrollLeft(trackEl, itemEl);
+      }
+
+      function scrollToItem(trackEl, itemEl) {
+        trackEl.scrollTo({
+          left: getCenteredScrollLeft(trackEl, itemEl),
+          behavior: 'smooth'
+        });
+      }
+
+      function initGallery(gallery) {
+        if (!(gallery instanceof HTMLElement)) return;
+        if (gallery.dataset.galleryReady === 'true') return;
+
         var track = gallery.querySelector('.portfolio-gallery__track');
         var prevBtn = gallery.querySelector('.portfolio-gallery__arrow--prev');
         var nextBtn = gallery.querySelector('.portfolio-gallery__arrow--next');
 
-        if (!track || !prevBtn || !nextBtn) return;
-        if (!(track instanceof HTMLElement)) return;
+        if (!track || !(track instanceof HTMLElement)) return;
 
-        var items = track.querySelectorAll('.portfolio-gallery__item');
+        var items = Array.prototype.slice
+          .call(track.querySelectorAll('.portfolio-gallery__item'))
+          .filter(function (el) {
+            return el instanceof HTMLElement;
+          });
+
         if (items.length <= 1) {
-          prevBtn.setAttribute('hidden', 'true');
-          nextBtn.setAttribute('hidden', 'true');
+          if (prevBtn) prevBtn.setAttribute('hidden', 'true');
+          if (nextBtn) nextBtn.setAttribute('hidden', 'true');
+          gallery.dataset.galleryReady = 'true';
           return;
         }
 
+        var ticking = false;
+        var activeIndex = 0;
         function updateArrows() {
-          var maxScroll = track.scrollWidth - track.clientWidth;
-          var current = track.scrollLeft;
+          if (!(prevBtn instanceof HTMLButtonElement) || !(nextBtn instanceof HTMLButtonElement)) return;
+          // Hide arrows on the true ends (first/last image), independent of padding/scroll math.
+          if (activeIndex <= 0) prevBtn.setAttribute('hidden', 'true');
+          else prevBtn.removeAttribute('hidden');
 
-          if (current <= 2) {
-            prevBtn.setAttribute('hidden', 'true');
-          } else {
-            prevBtn.removeAttribute('hidden');
-          }
-
-          if (current >= maxScroll - 2) {
-            nextBtn.setAttribute('hidden', 'true');
-          } else {
-            nextBtn.removeAttribute('hidden');
-          }
+          if (activeIndex >= items.length - 1) nextBtn.setAttribute('hidden', 'true');
+          else nextBtn.removeAttribute('hidden');
         }
 
-        function scrollByOne(direction) {
-          // posun o cca "jednu fotku" – 80 % šířky tracku
-          var amount = track.clientWidth * 0.55;
-          track.scrollBy({
-            left: direction * amount,
-            behavior: 'smooth'
+        function updateActive() {
+          var center = track.scrollLeft + track.clientWidth / 2;
+          var closestIndex = 0;
+          var minDistance = Infinity;
+
+          for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            var itemCenter = item.offsetLeft + item.clientWidth / 2;
+            var distance = Math.abs(center - itemCenter);
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestIndex = i;
+            }
+          }
+
+          items.forEach(function (item) {
+            item.classList.remove('is-active', 'is-left', 'is-right');
+          });
+
+          var active = items[closestIndex];
+          if (!active) return;
+
+          activeIndex = closestIndex;
+          active.classList.add('is-active');
+          if (items[closestIndex - 1]) items[closestIndex - 1].classList.add('is-left');
+          if (items[closestIndex + 1]) items[closestIndex + 1].classList.add('is-right');
+        }
+
+        function requestTick() {
+          if (ticking) return;
+          ticking = true;
+          requestAnimationFrame(function () {
+            ticking = false;
+            updateActive();
+            updateArrows();
           });
         }
 
-        prevBtn.addEventListener('click', function () {
-          scrollByOne(-1);
-        });
+        function scrollByItem(direction) {
+          var active = track.querySelector('.portfolio-gallery__item.is-active');
+          var currentIndex = items.indexOf(active);
+          if (currentIndex === -1) currentIndex = 0;
+          var target = items[currentIndex + direction];
+          if (!(target instanceof HTMLElement)) return;
+          scrollToItem(track, target);
+        }
 
-        nextBtn.addEventListener('click', function () {
-          scrollByOne(1);
-        });
+        if (prevBtn instanceof HTMLButtonElement) {
+          prevBtn.removeAttribute('hidden');
+          prevBtn.addEventListener('click', function () {
+            scrollByItem(-1);
+          });
+        }
 
-        track.addEventListener('scroll', function () {
-          // při ručním posunu / swipu aktualizujeme viditelnost šipek
+        if (nextBtn instanceof HTMLButtonElement) {
+          nextBtn.removeAttribute('hidden');
+          nextBtn.addEventListener('click', function () {
+            scrollByItem(1);
+          });
+        }
+
+        track.addEventListener('scroll', requestTick, { passive: true });
+        window.addEventListener('resize', requestTick);
+
+        requestAnimationFrame(function () {
+          updateActive();
           updateArrows();
         });
 
-        // inicializace po načtení
-        window.addEventListener('load', updateArrows);
-        updateArrows();
-      });
+        gallery.dataset.galleryReady = 'true';
+      }
+
+      document.querySelectorAll('.portfolio-gallery').forEach(initGallery);
     });
   </script>
 </BaseLayout>
