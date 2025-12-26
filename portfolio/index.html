@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><title> Bartys Tattoo - Portfolio </title><meta name="viewport" content="width=device-width, initial-scale=1.0"><base href="/bartys-tattoo/"><link rel="stylesheet" href="/bartys-tattoo/_astro/about.CjqgWKPb.css"></head> <body> <header class="site-header"> <nav class="site-nav" data-open="false"> <ul> <li><a href="/bartys-tattoo/">Úvodní stránka</a></li> <li><a href="/bartys-tattoo/contact/">Kontakt</a></li> <li><a href="/bartys-tattoo/portfolio/">Portfolio</a></li> <li><a href="/bartys-tattoo/studio/">Studio</a></li> <li><a href="/bartys-tattoo/merch/">Merch</a></li> <li><a href="/bartys-tattoo/about/">O mně</a></li> </ul> </nav> <button class="nav-toggle" type="button" aria-label="Otevřít navigaci" aria-expanded="false"> <span class="nav-toggle__bar"></span> <span class="nav-toggle__bar"></span> <span class="nav-toggle__bar"></span> </button> </header> <script type="module">
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><title> Bartys Tattoo - Portfolio </title><meta name="viewport" content="width=device-width, initial-scale=1.0"><base href="/bartys-tattoo/"><link rel="stylesheet" href="/bartys-tattoo/_astro/about.BaNTmWLd.css"></head> <body> <header class="site-header"> <nav class="site-nav" data-open="false"> <ul> <li><a href="/bartys-tattoo/">Úvodní stránka</a></li> <li><a href="/bartys-tattoo/contact/">Kontakt</a></li> <li><a href="/bartys-tattoo/portfolio/">Portfolio</a></li> <li><a href="/bartys-tattoo/studio/">Studio</a></li> <li><a href="/bartys-tattoo/merch/">Merch</a></li> <li><a href="/bartys-tattoo/about/">O mně</a></li> </ul> </nav> <button class="nav-toggle" type="button" aria-label="Otevřít navigaci" aria-expanded="false"> <span class="nav-toggle__bar"></span> <span class="nav-toggle__bar"></span> <span class="nav-toggle__bar"></span> </button> </header> <script type="module">
     const nav = document.querySelector('.site-nav');
     const button = document.querySelector('.nav-toggle');
     const MOBILE_BREAKPOINT = 900;
@@ -42,7 +42,7 @@
             });
         });
     }
-</script> <main>  <section class="portfolio-section"> <!-- Trash Polka --> <article class="portfolio-style"> <header class="portfolio-style__header"> <h1>Trash Polka</h1> <h2>Chaos a harmonie v jednom</h2> </header> <div class="portfolio-style__body"> <div class="portfolio-description" data-expanded="false"> <p>
+</script> <main>  <section class="portfolio-section"> <!-- Trash Polka --> <article class="portfolio-style"> <header class="portfolio-style__header"> <h1>Trash Polka</h1> <h2>Chaos a harmonie v jednom</h2> </header> <div class="portfolio-style__body"> <div class="expandable-text"> <div class="portfolio-description" data-expanded="false">  <p>
 Trash Polka je výrazný a provokativní tetovací styl, který vznikl v Německu, ve studiu Buena Vista Tattoo
             Club (Simone Pfaff a Volko Merschky). Kombinuje realistické motivy s abstraktními prvky, často ve formě
             šmouh, skvrn, nápisů a geometrických tvarů. Typické je pro něj použití pouze černé a červené barvy, což
@@ -51,9 +51,52 @@ Trash Polka je výrazný a provokativní tetovací styl, který vznikl v Německ
 Styl Trash Polka působí, jako by byl „roztrhaný“ nebo „kolážovitý“ – spojuje krásu a zmatek, realitu a
             fikci, život a smrt. Často nese hluboké osobní nebo filozofické významy, které jsou podané ve vizuálně
             explozivní formě.
-</p> </div> <button class="portfolio-toggle" type="button">
-Více
-</button> <div class="portfolio-gallery" aria-label="Trash Polka galerie"> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--prev" type="button" aria-label="Předchozí obrázek">
+</p>  </div> <button class="portfolio-toggle" type="button" data-label-more="Více" data-label-less="Méně"> Více </button> </div> <script>
+  (function () {
+    function initExpandable(root) {
+      if (!(root instanceof HTMLElement)) return;
+      if (root.dataset.expandableReady === 'true') return;
+
+      var description = root.querySelector('.portfolio-description');
+      var toggleButton = root.querySelector('.portfolio-toggle');
+
+      if (!description || !toggleButton) return;
+      if (!(description instanceof HTMLElement)) return;
+      if (!(toggleButton instanceof HTMLButtonElement)) return;
+
+      var labelMore = toggleButton.dataset.labelMore || 'Více';
+      var labelLess = toggleButton.dataset.labelLess || 'Méně';
+
+      var releasePress = function () {
+        toggleButton.classList.remove('is-pressed');
+      };
+
+      toggleButton.addEventListener('pointerdown', function () {
+        toggleButton.classList.add('is-pressed');
+      });
+      ['pointerup', 'pointerleave', 'pointercancel', 'blur'].forEach(function (eventName) {
+        toggleButton.addEventListener(eventName, releasePress);
+      });
+
+      toggleButton.addEventListener('click', function () {
+        var isExpanded = description.dataset.expanded === 'true';
+        description.dataset.expanded = isExpanded ? 'false' : 'true';
+        toggleButton.textContent = isExpanded ? labelMore : labelLess;
+        releasePress();
+      });
+
+      root.dataset.expandableReady = 'true';
+    }
+
+    var root = document.currentScript && document.currentScript.previousElementSibling;
+    if (root && root.classList.contains('expandable-text')) {
+      initExpandable(root);
+      return;
+    }
+
+    document.querySelectorAll('.expandable-text').forEach(initExpandable);
+  })();
+</script> <div class="portfolio-gallery" aria-label="Trash Polka galerie"> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--prev" type="button" aria-label="Předchozí obrázek">
 ←
 </button> <div class="portfolio-gallery__track"> <figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-02.B60K9Gc1.jpeg" alt="Trash Polka tetování 1" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-04.Dzk_s5OC.jpeg" alt="Trash Polka tetování 2" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-11.D1nCLx2q.jpeg" alt="Trash Polka tetování 3" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-16.CvIh_-Dl.jpeg" alt="Trash Polka tetování 4" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-20.D379LAsh.jpeg" alt="Trash Polka tetování 5" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-22.BGJbIMpR.jpeg" alt="Trash Polka tetování 6" loading="lazy" class="portfolio-gallery__image"> </figure> </div> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--next" type="button" aria-label="Další obrázek">
 →
@@ -185,7 +228,7 @@ Více
 
     document.querySelectorAll('.portfolio-gallery').forEach(initGallery);
   })();
-</script> </div> </article> <!-- Realistika zvířat --> <article class="portfolio-style"> <header class="portfolio-style__header"> <h1>Realistika zvířat</h1> <h2>Síla přírody zachycená v inkoustu</h2> </header> <div class="portfolio-style__body"> <div class="portfolio-description" data-expanded="false"> <p>
+</script> </div> </article> <!-- Realistika zvířat --> <article class="portfolio-style"> <header class="portfolio-style__header"> <h1>Realistika zvířat</h1> <h2>Síla přírody zachycená v inkoustu</h2> </header> <div class="portfolio-style__body"> <div class="expandable-text"> <div class="portfolio-description" data-expanded="false">  <p>
 Tetování ve stylu realistiky zvířat se zaměřuje na co nejvěrnější zobrazení živých tvorů – od jemných
             detailů srsti a lesku v očích až po hru světla a stínu. Cílem je vytvořit tetování, které působí jako
             živé, s důrazem na emocionalitu, charakter a energii daného zvířete.
@@ -193,9 +236,52 @@ Tetování ve stylu realistiky zvířat se zaměřuje na co nejvěrnější zobr
 Realistická zvířata se často používají jako symbol síly, svobody, věrnosti nebo instinktů, které si člověk
             spojuje se svým vlastním příběhem. Každé tetování je originál, který přenáší osobnost i duši zvířete přímo
             na kůži.
-</p> </div> <button class="portfolio-toggle" type="button">
-Více
-</button> <div class="portfolio-gallery" aria-label="Realistika zvířat galerie"> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--prev" type="button" aria-label="Předchozí obrázek">
+</p>  </div> <button class="portfolio-toggle" type="button" data-label-more="Více" data-label-less="Méně"> Více </button> </div> <script>
+  (function () {
+    function initExpandable(root) {
+      if (!(root instanceof HTMLElement)) return;
+      if (root.dataset.expandableReady === 'true') return;
+
+      var description = root.querySelector('.portfolio-description');
+      var toggleButton = root.querySelector('.portfolio-toggle');
+
+      if (!description || !toggleButton) return;
+      if (!(description instanceof HTMLElement)) return;
+      if (!(toggleButton instanceof HTMLButtonElement)) return;
+
+      var labelMore = toggleButton.dataset.labelMore || 'Více';
+      var labelLess = toggleButton.dataset.labelLess || 'Méně';
+
+      var releasePress = function () {
+        toggleButton.classList.remove('is-pressed');
+      };
+
+      toggleButton.addEventListener('pointerdown', function () {
+        toggleButton.classList.add('is-pressed');
+      });
+      ['pointerup', 'pointerleave', 'pointercancel', 'blur'].forEach(function (eventName) {
+        toggleButton.addEventListener(eventName, releasePress);
+      });
+
+      toggleButton.addEventListener('click', function () {
+        var isExpanded = description.dataset.expanded === 'true';
+        description.dataset.expanded = isExpanded ? 'false' : 'true';
+        toggleButton.textContent = isExpanded ? labelMore : labelLess;
+        releasePress();
+      });
+
+      root.dataset.expandableReady = 'true';
+    }
+
+    var root = document.currentScript && document.currentScript.previousElementSibling;
+    if (root && root.classList.contains('expandable-text')) {
+      initExpandable(root);
+      return;
+    }
+
+    document.querySelectorAll('.expandable-text').forEach(initExpandable);
+  })();
+</script> <div class="portfolio-gallery" aria-label="Realistika zvířat galerie"> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--prev" type="button" aria-label="Předchozí obrázek">
 ←
 </button> <div class="portfolio-gallery__track"> <figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-01.DhZf0S76.jpeg" alt="Realistické tetování 1" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-03.CHbslXC-.jpeg" alt="Realistické tetování 2" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-05.DumH-3HO.jpeg" alt="Realistické tetování 3" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-06.VOSyOxI3.jpeg" alt="Realistické tetování 4" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-07.CJ6wcv4b.jpeg" alt="Realistické tetování 5" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-08.Ba_ff8M9.jpeg" alt="Realistické tetování 6" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-09.cq-aqpXB.jpeg" alt="Realistické tetování 7" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-10.FLeG9wLZ.jpeg" alt="Realistické tetování 8" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-12.DY1rMgiL.jpeg" alt="Realistické tetování 9" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-13.CZutkMhe.jpeg" alt="Realistické tetování 10" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-14.Dl22YIhW.jpeg" alt="Realistické tetování 11" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-15.BU3JNTPX.jpeg" alt="Realistické tetování 12" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-17.CyVIUX9f.jpeg" alt="Realistické tetování 13" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-18.1S1xoR_d.jpeg" alt="Realistické tetování 14" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-21.-vQjDgg1.jpeg" alt="Realistické tetování 15" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-23.Cz9PzRGg.jpeg" alt="Realistické tetování 16" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-24.DpwBQ26M.jpeg" alt="Realistické tetování 17" loading="lazy" class="portfolio-gallery__image"> </figure> </div> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--next" type="button" aria-label="Další obrázek">
 →
@@ -327,35 +413,4 @@ Více
 
     document.querySelectorAll('.portfolio-gallery').forEach(initGallery);
   })();
-</script> </div> </article> </section> <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // --- Rozbalování / sbalování textu ---
-      document.querySelectorAll('.portfolio-style').forEach(function (section) {
-        var description = section.querySelector('.portfolio-description');
-        var toggleButton = section.querySelector('.portfolio-toggle');
-
-        if (!description || !toggleButton) return;
-        if (!(description instanceof HTMLElement)) return;
-        if (!(toggleButton instanceof HTMLButtonElement)) return;
-
-        var releasePress = function () {
-          toggleButton.classList.remove('is-pressed');
-        };
-
-        toggleButton.addEventListener('pointerdown', function () {
-          toggleButton.classList.add('is-pressed');
-        });
-        ['pointerup', 'pointerleave', 'pointercancel', 'blur'].forEach(function (eventName) {
-          toggleButton.addEventListener(eventName, releasePress);
-        });
-
-        toggleButton.addEventListener('click', function () {
-          var isExpanded = description.dataset.expanded === 'true';
-          description.dataset.expanded = isExpanded ? 'false' : 'true';
-          toggleButton.textContent = isExpanded ? 'Více' : 'Méně';
-          releasePress();
-        });
-      });
-
-    });
-  </script>  </main> </body></html>
+</script> </div> </article> </section>  </main> </body></html>
