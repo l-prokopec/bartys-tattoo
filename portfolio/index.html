@@ -53,11 +53,139 @@ Styl Trash Polka působí, jako by byl „roztrhaný“ nebo „kolážovitý“
             explozivní formě.
 </p> </div> <button class="portfolio-toggle" type="button">
 Více
-</button> <div class="portfolio-gallery"> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--prev" type="button" aria-label="Předchozí obrázek">
+</button> <div class="portfolio-gallery" aria-label="Trash Polka galerie"> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--prev" type="button" aria-label="Předchozí obrázek">
 ←
 </button> <div class="portfolio-gallery__track"> <figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-02.B60K9Gc1.jpeg" alt="Trash Polka tetování 1" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-04.Dzk_s5OC.jpeg" alt="Trash Polka tetování 2" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-11.D1nCLx2q.jpeg" alt="Trash Polka tetování 3" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-16.CvIh_-Dl.jpeg" alt="Trash Polka tetování 4" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-20.D379LAsh.jpeg" alt="Trash Polka tetování 5" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-22.BGJbIMpR.jpeg" alt="Trash Polka tetování 6" loading="lazy" class="portfolio-gallery__image"> </figure> </div> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--next" type="button" aria-label="Další obrázek">
 →
-</button> </div> </div> </article> <!-- Realistika zvířat --> <article class="portfolio-style"> <header class="portfolio-style__header"> <h1>Realistika zvířat</h1> <h2>Síla přírody zachycená v inkoustu</h2> </header> <div class="portfolio-style__body"> <div class="portfolio-description" data-expanded="false"> <p>
+</button> </div> <script>
+  (function () {
+    function getCenteredScrollLeft(trackEl, itemEl) {
+      return itemEl.offsetLeft - (trackEl.clientWidth - itemEl.clientWidth) / 2;
+    }
+
+    function scrollToItem(trackEl, itemEl) {
+      trackEl.scrollTo({
+        left: getCenteredScrollLeft(trackEl, itemEl),
+        behavior: 'smooth'
+      });
+    }
+
+    function initGallery(gallery) {
+      if (!(gallery instanceof HTMLElement)) return;
+      if (gallery.dataset.galleryReady === 'true') return;
+
+      var track = gallery.querySelector('.portfolio-gallery__track');
+      var prevBtn = gallery.querySelector('.portfolio-gallery__arrow--prev');
+      var nextBtn = gallery.querySelector('.portfolio-gallery__arrow--next');
+
+      if (!track || !(track instanceof HTMLElement)) return;
+
+      var items = Array.prototype.slice
+        .call(track.querySelectorAll('.portfolio-gallery__item'))
+        .filter(function (el) {
+          return el instanceof HTMLElement;
+        });
+
+      if (items.length <= 1) {
+        if (prevBtn) prevBtn.setAttribute('hidden', 'true');
+        if (nextBtn) nextBtn.setAttribute('hidden', 'true');
+        gallery.dataset.galleryReady = 'true';
+        return;
+      }
+
+      var ticking = false;
+      var activeIndex = 0;
+
+      function updateArrows() {
+        if (!(prevBtn instanceof HTMLButtonElement) || !(nextBtn instanceof HTMLButtonElement)) return;
+        if (activeIndex <= 0) prevBtn.setAttribute('hidden', 'true');
+        else prevBtn.removeAttribute('hidden');
+
+        if (activeIndex >= items.length - 1) nextBtn.setAttribute('hidden', 'true');
+        else nextBtn.removeAttribute('hidden');
+      }
+
+      function updateActive() {
+        var center = track.scrollLeft + track.clientWidth / 2;
+        var closestIndex = 0;
+        var minDistance = Infinity;
+
+        for (var i = 0; i < items.length; i++) {
+          var item = items[i];
+          var itemCenter = item.offsetLeft + item.clientWidth / 2;
+          var distance = Math.abs(center - itemCenter);
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestIndex = i;
+          }
+        }
+
+        items.forEach(function (item) {
+          item.classList.remove('is-active', 'is-left', 'is-right');
+        });
+
+        var active = items[closestIndex];
+        if (!active) return;
+
+        activeIndex = closestIndex;
+        active.classList.add('is-active');
+        if (items[closestIndex - 1]) items[closestIndex - 1].classList.add('is-left');
+        if (items[closestIndex + 1]) items[closestIndex + 1].classList.add('is-right');
+      }
+
+      function requestTick() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          ticking = false;
+          updateActive();
+          updateArrows();
+        });
+      }
+
+      function scrollByItem(direction) {
+        var active = track.querySelector('.portfolio-gallery__item.is-active');
+        var currentIndex = items.indexOf(active);
+        if (currentIndex === -1) currentIndex = 0;
+        var target = items[currentIndex + direction];
+        if (!(target instanceof HTMLElement)) return;
+        scrollToItem(track, target);
+      }
+
+      if (prevBtn instanceof HTMLButtonElement) {
+        prevBtn.removeAttribute('hidden');
+        prevBtn.addEventListener('click', function () {
+          scrollByItem(-1);
+        });
+      }
+
+      if (nextBtn instanceof HTMLButtonElement) {
+        nextBtn.removeAttribute('hidden');
+        nextBtn.addEventListener('click', function () {
+          scrollByItem(1);
+        });
+      }
+
+      track.addEventListener('scroll', requestTick, { passive: true });
+      window.addEventListener('resize', requestTick);
+
+      requestAnimationFrame(function () {
+        updateActive();
+        updateArrows();
+      });
+
+      gallery.dataset.galleryReady = 'true';
+    }
+
+    var gallery = document.currentScript && document.currentScript.previousElementSibling;
+    if (gallery && gallery.classList.contains('portfolio-gallery')) {
+      initGallery(gallery);
+      return;
+    }
+
+    document.querySelectorAll('.portfolio-gallery').forEach(initGallery);
+  })();
+</script> </div> </article> <!-- Realistika zvířat --> <article class="portfolio-style"> <header class="portfolio-style__header"> <h1>Realistika zvířat</h1> <h2>Síla přírody zachycená v inkoustu</h2> </header> <div class="portfolio-style__body"> <div class="portfolio-description" data-expanded="false"> <p>
 Tetování ve stylu realistiky zvířat se zaměřuje na co nejvěrnější zobrazení živých tvorů – od jemných
             detailů srsti a lesku v očích až po hru světla a stínu. Cílem je vytvořit tetování, které působí jako
             živé, s důrazem na emocionalitu, charakter a energii daného zvířete.
@@ -67,11 +195,139 @@ Realistická zvířata se často používají jako symbol síly, svobody, věrno
             na kůži.
 </p> </div> <button class="portfolio-toggle" type="button">
 Více
-</button> <div class="portfolio-gallery"> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--prev" type="button" aria-label="Předchozí obrázek">
+</button> <div class="portfolio-gallery" aria-label="Realistika zvířat galerie"> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--prev" type="button" aria-label="Předchozí obrázek">
 ←
 </button> <div class="portfolio-gallery__track"> <figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-01.DhZf0S76.jpeg" alt="Realistické tetování 1" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-03.CHbslXC-.jpeg" alt="Realistické tetování 2" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-05.DumH-3HO.jpeg" alt="Realistické tetování 3" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-06.VOSyOxI3.jpeg" alt="Realistické tetování 4" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-07.CJ6wcv4b.jpeg" alt="Realistické tetování 5" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-08.Ba_ff8M9.jpeg" alt="Realistické tetování 6" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-09.cq-aqpXB.jpeg" alt="Realistické tetování 7" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-10.FLeG9wLZ.jpeg" alt="Realistické tetování 8" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-12.DY1rMgiL.jpeg" alt="Realistické tetování 9" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-13.CZutkMhe.jpeg" alt="Realistické tetování 10" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-14.Dl22YIhW.jpeg" alt="Realistické tetování 11" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-15.BU3JNTPX.jpeg" alt="Realistické tetování 12" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-17.CyVIUX9f.jpeg" alt="Realistické tetování 13" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-18.1S1xoR_d.jpeg" alt="Realistické tetování 14" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-21.-vQjDgg1.jpeg" alt="Realistické tetování 15" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-23.Cz9PzRGg.jpeg" alt="Realistické tetování 16" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/portfolio-24.DpwBQ26M.jpeg" alt="Realistické tetování 17" loading="lazy" class="portfolio-gallery__image"> </figure> </div> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--next" type="button" aria-label="Další obrázek">
 →
-</button> </div> </div> </article> </section> <script>
+</button> </div> <script>
+  (function () {
+    function getCenteredScrollLeft(trackEl, itemEl) {
+      return itemEl.offsetLeft - (trackEl.clientWidth - itemEl.clientWidth) / 2;
+    }
+
+    function scrollToItem(trackEl, itemEl) {
+      trackEl.scrollTo({
+        left: getCenteredScrollLeft(trackEl, itemEl),
+        behavior: 'smooth'
+      });
+    }
+
+    function initGallery(gallery) {
+      if (!(gallery instanceof HTMLElement)) return;
+      if (gallery.dataset.galleryReady === 'true') return;
+
+      var track = gallery.querySelector('.portfolio-gallery__track');
+      var prevBtn = gallery.querySelector('.portfolio-gallery__arrow--prev');
+      var nextBtn = gallery.querySelector('.portfolio-gallery__arrow--next');
+
+      if (!track || !(track instanceof HTMLElement)) return;
+
+      var items = Array.prototype.slice
+        .call(track.querySelectorAll('.portfolio-gallery__item'))
+        .filter(function (el) {
+          return el instanceof HTMLElement;
+        });
+
+      if (items.length <= 1) {
+        if (prevBtn) prevBtn.setAttribute('hidden', 'true');
+        if (nextBtn) nextBtn.setAttribute('hidden', 'true');
+        gallery.dataset.galleryReady = 'true';
+        return;
+      }
+
+      var ticking = false;
+      var activeIndex = 0;
+
+      function updateArrows() {
+        if (!(prevBtn instanceof HTMLButtonElement) || !(nextBtn instanceof HTMLButtonElement)) return;
+        if (activeIndex <= 0) prevBtn.setAttribute('hidden', 'true');
+        else prevBtn.removeAttribute('hidden');
+
+        if (activeIndex >= items.length - 1) nextBtn.setAttribute('hidden', 'true');
+        else nextBtn.removeAttribute('hidden');
+      }
+
+      function updateActive() {
+        var center = track.scrollLeft + track.clientWidth / 2;
+        var closestIndex = 0;
+        var minDistance = Infinity;
+
+        for (var i = 0; i < items.length; i++) {
+          var item = items[i];
+          var itemCenter = item.offsetLeft + item.clientWidth / 2;
+          var distance = Math.abs(center - itemCenter);
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestIndex = i;
+          }
+        }
+
+        items.forEach(function (item) {
+          item.classList.remove('is-active', 'is-left', 'is-right');
+        });
+
+        var active = items[closestIndex];
+        if (!active) return;
+
+        activeIndex = closestIndex;
+        active.classList.add('is-active');
+        if (items[closestIndex - 1]) items[closestIndex - 1].classList.add('is-left');
+        if (items[closestIndex + 1]) items[closestIndex + 1].classList.add('is-right');
+      }
+
+      function requestTick() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          ticking = false;
+          updateActive();
+          updateArrows();
+        });
+      }
+
+      function scrollByItem(direction) {
+        var active = track.querySelector('.portfolio-gallery__item.is-active');
+        var currentIndex = items.indexOf(active);
+        if (currentIndex === -1) currentIndex = 0;
+        var target = items[currentIndex + direction];
+        if (!(target instanceof HTMLElement)) return;
+        scrollToItem(track, target);
+      }
+
+      if (prevBtn instanceof HTMLButtonElement) {
+        prevBtn.removeAttribute('hidden');
+        prevBtn.addEventListener('click', function () {
+          scrollByItem(-1);
+        });
+      }
+
+      if (nextBtn instanceof HTMLButtonElement) {
+        nextBtn.removeAttribute('hidden');
+        nextBtn.addEventListener('click', function () {
+          scrollByItem(1);
+        });
+      }
+
+      track.addEventListener('scroll', requestTick, { passive: true });
+      window.addEventListener('resize', requestTick);
+
+      requestAnimationFrame(function () {
+        updateActive();
+        updateArrows();
+      });
+
+      gallery.dataset.galleryReady = 'true';
+    }
+
+    var gallery = document.currentScript && document.currentScript.previousElementSibling;
+    if (gallery && gallery.classList.contains('portfolio-gallery')) {
+      initGallery(gallery);
+      return;
+    }
+
+    document.querySelectorAll('.portfolio-gallery').forEach(initGallery);
+  })();
+</script> </div> </article> </section> <script>
     document.addEventListener('DOMContentLoaded', function () {
       // --- Rozbalování / sbalování textu ---
       document.querySelectorAll('.portfolio-style').forEach(function (section) {
@@ -101,129 +357,5 @@ Více
         });
       });
 
-      // --- Galerie (nekonečná smyčka + "depth" efekt pro sousedy) ---
-      function getCenteredScrollLeft(trackEl, itemEl) {
-        return itemEl.offsetLeft - (trackEl.clientWidth - itemEl.clientWidth) / 2;
-      }
-
-      function jumpToItem(trackEl, itemEl) {
-        trackEl.scrollLeft = getCenteredScrollLeft(trackEl, itemEl);
-      }
-
-      function scrollToItem(trackEl, itemEl) {
-        trackEl.scrollTo({
-          left: getCenteredScrollLeft(trackEl, itemEl),
-          behavior: 'smooth'
-        });
-      }
-
-      function initGallery(gallery) {
-        if (!(gallery instanceof HTMLElement)) return;
-        if (gallery.dataset.galleryReady === 'true') return;
-
-        var track = gallery.querySelector('.portfolio-gallery__track');
-        var prevBtn = gallery.querySelector('.portfolio-gallery__arrow--prev');
-        var nextBtn = gallery.querySelector('.portfolio-gallery__arrow--next');
-
-        if (!track || !(track instanceof HTMLElement)) return;
-
-        var items = Array.prototype.slice
-          .call(track.querySelectorAll('.portfolio-gallery__item'))
-          .filter(function (el) {
-            return el instanceof HTMLElement;
-          });
-
-        if (items.length <= 1) {
-          if (prevBtn) prevBtn.setAttribute('hidden', 'true');
-          if (nextBtn) nextBtn.setAttribute('hidden', 'true');
-          gallery.dataset.galleryReady = 'true';
-          return;
-        }
-
-        var ticking = false;
-        var activeIndex = 0;
-        function updateArrows() {
-          if (!(prevBtn instanceof HTMLButtonElement) || !(nextBtn instanceof HTMLButtonElement)) return;
-          // Hide arrows on the true ends (first/last image), independent of padding/scroll math.
-          if (activeIndex <= 0) prevBtn.setAttribute('hidden', 'true');
-          else prevBtn.removeAttribute('hidden');
-
-          if (activeIndex >= items.length - 1) nextBtn.setAttribute('hidden', 'true');
-          else nextBtn.removeAttribute('hidden');
-        }
-
-        function updateActive() {
-          var center = track.scrollLeft + track.clientWidth / 2;
-          var closestIndex = 0;
-          var minDistance = Infinity;
-
-          for (var i = 0; i < items.length; i++) {
-            var item = items[i];
-            var itemCenter = item.offsetLeft + item.clientWidth / 2;
-            var distance = Math.abs(center - itemCenter);
-            if (distance < minDistance) {
-              minDistance = distance;
-              closestIndex = i;
-            }
-          }
-
-          items.forEach(function (item) {
-            item.classList.remove('is-active', 'is-left', 'is-right');
-          });
-
-          var active = items[closestIndex];
-          if (!active) return;
-
-          activeIndex = closestIndex;
-          active.classList.add('is-active');
-          if (items[closestIndex - 1]) items[closestIndex - 1].classList.add('is-left');
-          if (items[closestIndex + 1]) items[closestIndex + 1].classList.add('is-right');
-        }
-
-        function requestTick() {
-          if (ticking) return;
-          ticking = true;
-          requestAnimationFrame(function () {
-            ticking = false;
-            updateActive();
-            updateArrows();
-          });
-        }
-
-        function scrollByItem(direction) {
-          var active = track.querySelector('.portfolio-gallery__item.is-active');
-          var currentIndex = items.indexOf(active);
-          if (currentIndex === -1) currentIndex = 0;
-          var target = items[currentIndex + direction];
-          if (!(target instanceof HTMLElement)) return;
-          scrollToItem(track, target);
-        }
-
-        if (prevBtn instanceof HTMLButtonElement) {
-          prevBtn.removeAttribute('hidden');
-          prevBtn.addEventListener('click', function () {
-            scrollByItem(-1);
-          });
-        }
-
-        if (nextBtn instanceof HTMLButtonElement) {
-          nextBtn.removeAttribute('hidden');
-          nextBtn.addEventListener('click', function () {
-            scrollByItem(1);
-          });
-        }
-
-        track.addEventListener('scroll', requestTick, { passive: true });
-        window.addEventListener('resize', requestTick);
-
-        requestAnimationFrame(function () {
-          updateActive();
-          updateArrows();
-        });
-
-        gallery.dataset.galleryReady = 'true';
-      }
-
-      document.querySelectorAll('.portfolio-gallery').forEach(initGallery);
     });
   </script>  </main> </body></html>
