@@ -13,15 +13,17 @@ const aboutImages = Object.values(
 
 const aboutGallery = aboutImages.map((image, index) => ({
   src: image.default.src,
-  alt: `O mně ${index + 1}`
+  alt: `O mně ${index + 1}`,
+  width: image.default.width,
+  height: image.default.height
 }));
 ---
 <BaseLayout title="Bartys Tattoo - O mně">
-    <ExpandableText>
         <p>
             Ahoj, jsem Tomáš 👋 Tetování se věnuji od roku 2023. Pocházím z Pelhřimova,
             ale aktuálně působím v jednom z největších studií v Jihlavě – DirtyFamilyTattoo.
         </p>
+        <ExpandableText>
         <p>
             K umění a kreslení mám blízko už od dětství. Od první třídy jsem navštěvoval výtvarný obor
             na ZUŠ Pelhřimov, i když mě tehdy ani nenapadlo, že se jednou stanu tatérem. Po střední škole jsem začal

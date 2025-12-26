@@ -20,12 +20,16 @@ const realismImages = Object.values(
 
 const trashPolkaGallery = trashPolkaImages.map((image, index) => ({
   src: image.default.src,
-  alt: `Trash Polka tetování ${index + 1}`
+  alt: `Trash Polka tetování ${index + 1}`,
+  width: image.default.width,
+  height: image.default.height
 }));
 
 const realismGallery = realismImages.map((image, index) => ({
   src: image.default.src,
-  alt: `Realistické tetování ${index + 1}`
+  alt: `Realistické tetování ${index + 1}`,
+  width: image.default.width,
+  height: image.default.height
 }));
 ---
 

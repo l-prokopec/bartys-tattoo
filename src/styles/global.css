@@ -638,10 +638,15 @@ img, video {
     scroll-snap-align: center;
     position: relative;
     margin: 0;
+    aspect-ratio: 3 / 4;
     transform: scale(0.94);
     transition: transform 240ms ease;
     will-change: transform;
     z-index: 0;
+}
+
+.portfolio-gallery__item.is-landscape {
+    aspect-ratio: 4 / 3;
 }
 
 @media (min-width: 900px) {

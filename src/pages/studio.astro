@@ -13,6 +13,8 @@ const studioImages = Object.values(
 const studioGallery = studioImages.map((image, index) => ({
   src: image.default.src,
   alt: `Studio ${index + 1}`,
+  width: image.default.width,
+  height: image.default.height,
 }));
 ---
 

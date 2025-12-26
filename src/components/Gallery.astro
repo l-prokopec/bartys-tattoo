@@ -2,6 +2,8 @@
 export type GalleryImage = {
   src: string;
   alt?: string;
+  width?: number;
+  height?: number;
 };
 
 const { images = [], label = 'Galerie' } = Astro.props as {
@@ -20,16 +22,23 @@ const { images = [], label = 'Galerie' } = Astro.props as {
   </button>
 
   <div class="portfolio-gallery__track">
-    {images.map((image, index) => (
-      <figure class="portfolio-gallery__item">
-        <img
-          src={image.src}
-          alt={image.alt ?? `Portfolio ukázka ${index + 1}`}
-          loading="lazy"
-          class="portfolio-gallery__image"
-        />
-      </figure>
-    ))}
+    {images.map((image, index) => {
+      const isLandscape =
+        typeof image.width === 'number' &&
+        typeof image.height === 'number' &&
+        image.width >= image.height;
+
+      return (
+        <figure class={`portfolio-gallery__item${isLandscape ? ' is-landscape' : ''}`}>
+          <img
+            src={image.src}
+            alt={image.alt ?? `Portfolio ukázka ${index + 1}`}
+            loading="lazy"
+            class="portfolio-gallery__image"
+          />
+        </figure>
+      );
+    })}
   </div>
 
   <button
