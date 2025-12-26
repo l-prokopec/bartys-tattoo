@@ -1,0 +1,74 @@
+---
+const {
+  labelMore = 'Více',
+  labelLess = 'Méně',
+  expanded = false
+} = Astro.props as {
+  labelMore?: string;
+  labelLess?: string;
+  expanded?: boolean;
+};
+
+const initialExpanded = expanded ? 'true' : 'false';
+---
+
+<div class="expandable-text">
+  <div class="portfolio-description" data-expanded={initialExpanded}>
+    <slot />
+  </div>
+  <button
+    class="portfolio-toggle"
+    type="button"
+    data-label-more={labelMore}
+    data-label-less={labelLess}
+  >
+    {expanded ? labelLess : labelMore}
+  </button>
+</div>
+
+<script is:inline>
+  (function () {
+    function initExpandable(root) {
+      if (!(root instanceof HTMLElement)) return;
+      if (root.dataset.expandableReady === 'true') return;
+
+      var description = root.querySelector('.portfolio-description');
+      var toggleButton = root.querySelector('.portfolio-toggle');
+
+      if (!description || !toggleButton) return;
+      if (!(description instanceof HTMLElement)) return;
+      if (!(toggleButton instanceof HTMLButtonElement)) return;
+
+      var labelMore = toggleButton.dataset.labelMore || 'Více';
+      var labelLess = toggleButton.dataset.labelLess || 'Méně';
+
+      var releasePress = function () {
+        toggleButton.classList.remove('is-pressed');
+      };
+
+      toggleButton.addEventListener('pointerdown', function () {
+        toggleButton.classList.add('is-pressed');
+      });
+      ['pointerup', 'pointerleave', 'pointercancel', 'blur'].forEach(function (eventName) {
+        toggleButton.addEventListener(eventName, releasePress);
+      });
+
+      toggleButton.addEventListener('click', function () {
+        var isExpanded = description.dataset.expanded === 'true';
+        description.dataset.expanded = isExpanded ? 'false' : 'true';
+        toggleButton.textContent = isExpanded ? labelMore : labelLess;
+        releasePress();
+      });
+
+      root.dataset.expandableReady = 'true';
+    }
+
+    var root = document.currentScript && document.currentScript.previousElementSibling;
+    if (root && root.classList.contains('expandable-text')) {
+      initExpandable(root);
+      return;
+    }
+
+    document.querySelectorAll('.expandable-text').forEach(initExpandable);
+  })();
+</script>

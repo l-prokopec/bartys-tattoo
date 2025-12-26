@@ -393,6 +393,12 @@ img, video {
     gap: var(--spacing-sm);
 }
 
+.expandable-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
 /* Shorten text with fadeout */
 
 .portfolio-description {

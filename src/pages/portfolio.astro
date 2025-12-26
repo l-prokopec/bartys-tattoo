@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Gallery from '../components/Gallery.astro';
+import ExpandableText from '../components/ExpandableText.astro';
 import type { ImageMetadata } from 'astro';
 
 const trashPolkaImages = Object.values(
@@ -40,7 +41,7 @@ const realismGallery = realismImages.map((image, index) => ({
       </header>
 
       <div class="portfolio-style__body">
-        <div class="portfolio-description" data-expanded="false">
+        <ExpandableText>
           <p>
             Trash Polka je výrazný a provokativní tetovací styl, který vznikl v Německu, ve studiu Buena Vista Tattoo
             Club (Simone Pfaff a Volko Merschky). Kombinuje realistické motivy s abstraktními prvky, často ve formě
@@ -52,11 +53,7 @@ const realismGallery = realismImages.map((image, index) => ({
             fikci, život a smrt. Často nese hluboké osobní nebo filozofické významy, které jsou podané ve vizuálně
             explozivní formě.
           </p>
-        </div>
-
-        <button class="portfolio-toggle" type="button">
-          Více
-        </button>
+        </ExpandableText>
 
         <Gallery images={trashPolkaGallery} label="Trash Polka galerie" />
       </div>
@@ -70,7 +67,7 @@ const realismGallery = realismImages.map((image, index) => ({
       </header>
 
       <div class="portfolio-style__body">
-        <div class="portfolio-description" data-expanded="false">
+        <ExpandableText>
           <p>
             Tetování ve stylu realistiky zvířat se zaměřuje na co nejvěrnější zobrazení živých tvorů – od jemných
             detailů srsti a lesku v očích až po hru světla a stínu. Cílem je vytvořit tetování, které působí jako
@@ -81,47 +78,11 @@ const realismGallery = realismImages.map((image, index) => ({
             spojuje se svým vlastním příběhem. Každé tetování je originál, který přenáší osobnost i duši zvířete přímo
             na kůži.
           </p>
-        </div>
-
-        <button class="portfolio-toggle" type="button">
-          Více
-        </button>
+        </ExpandableText>
 
         <Gallery images={realismGallery} label="Realistika zvířat galerie" />
       </div>
     </article>
   </section>
 
-    <script is:inline>
-    document.addEventListener('DOMContentLoaded', function () {
-      // --- Rozbalování / sbalování textu ---
-      document.querySelectorAll('.portfolio-style').forEach(function (section) {
-        var description = section.querySelector('.portfolio-description');
-        var toggleButton = section.querySelector('.portfolio-toggle');
-
-        if (!description || !toggleButton) return;
-        if (!(description instanceof HTMLElement)) return;
-        if (!(toggleButton instanceof HTMLButtonElement)) return;
-
-        var releasePress = function () {
-          toggleButton.classList.remove('is-pressed');
-        };
-
-        toggleButton.addEventListener('pointerdown', function () {
-          toggleButton.classList.add('is-pressed');
-        });
-        ['pointerup', 'pointerleave', 'pointercancel', 'blur'].forEach(function (eventName) {
-          toggleButton.addEventListener(eventName, releasePress);
-        });
-
-        toggleButton.addEventListener('click', function () {
-          var isExpanded = description.dataset.expanded === 'true';
-          description.dataset.expanded = isExpanded ? 'false' : 'true';
-          toggleButton.textContent = isExpanded ? 'Více' : 'Méně';
-          releasePress();
-        });
-      });
-
-    });
-  </script>
 </BaseLayout>
