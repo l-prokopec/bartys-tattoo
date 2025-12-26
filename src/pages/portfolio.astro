@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Gallery from '../components/Gallery.astro';
 import type { ImageMetadata } from 'astro';
 
 const trashPolkaImages = Object.values(
@@ -15,6 +16,16 @@ const realismImages = Object.values(
     { eager: true }
   )
 );
+
+const trashPolkaGallery = trashPolkaImages.map((image, index) => ({
+  src: image.default.src,
+  alt: `Trash Polka tetování ${index + 1}`
+}));
+
+const realismGallery = realismImages.map((image, index) => ({
+  src: image.default.src,
+  alt: `Realistické tetování ${index + 1}`
+}));
 ---
 
 
@@ -47,36 +58,7 @@ const realismImages = Object.values(
           Více
         </button>
 
-                <div class="portfolio-gallery">
-          <button
-            class="portfolio-gallery__arrow portfolio-gallery__arrow--prev"
-            type="button"
-            aria-label="Předchozí obrázek"
-          >
-            ←
-          </button>
-
-          <div class="portfolio-gallery__track">
-            {trashPolkaImages.map((image, index) => (
-              <figure class="portfolio-gallery__item">
-                <img
-                  src={image.default.src}
-                  alt={`Trash Polka tetování ${index + 1}`}
-                  loading="lazy"
-                  class="portfolio-gallery__image"
-                />
-              </figure>
-            ))}
-          </div>
-
-          <button
-            class="portfolio-gallery__arrow portfolio-gallery__arrow--next"
-            type="button"
-            aria-label="Další obrázek"
-          >
-            →
-          </button>
-        </div>
+        <Gallery images={trashPolkaGallery} label="Trash Polka galerie" />
       </div>
     </article>
 
@@ -105,36 +87,7 @@ const realismImages = Object.values(
           Více
         </button>
 
-                <div class="portfolio-gallery">
-          <button
-            class="portfolio-gallery__arrow portfolio-gallery__arrow--prev"
-            type="button"
-            aria-label="Předchozí obrázek"
-          >
-            ←
-          </button>
-
-          <div class="portfolio-gallery__track">
-            {realismImages.map((image, index) => (
-              <figure class="portfolio-gallery__item">
-                <img
-                  src={image.default.src}
-                  alt={`Realistické tetování ${index + 1}`}
-                  loading="lazy"
-                  class="portfolio-gallery__image"
-                />
-              </figure>
-            ))}
-          </div>
-
-          <button
-            class="portfolio-gallery__arrow portfolio-gallery__arrow--next"
-            type="button"
-            aria-label="Další obrázek"
-          >
-            →
-          </button>
-        </div>
+        <Gallery images={realismGallery} label="Realistika zvířat galerie" />
       </div>
     </article>
   </section>
@@ -169,130 +122,6 @@ const realismImages = Object.values(
         });
       });
 
-      // --- Galerie (nekonečná smyčka + "depth" efekt pro sousedy) ---
-      function getCenteredScrollLeft(trackEl, itemEl) {
-        return itemEl.offsetLeft - (trackEl.clientWidth - itemEl.clientWidth) / 2;
-      }
-
-      function jumpToItem(trackEl, itemEl) {
-        trackEl.scrollLeft = getCenteredScrollLeft(trackEl, itemEl);
-      }
-
-      function scrollToItem(trackEl, itemEl) {
-        trackEl.scrollTo({
-          left: getCenteredScrollLeft(trackEl, itemEl),
-          behavior: 'smooth'
-        });
-      }
-
-      function initGallery(gallery) {
-        if (!(gallery instanceof HTMLElement)) return;
-        if (gallery.dataset.galleryReady === 'true') return;
-
-        var track = gallery.querySelector('.portfolio-gallery__track');
-        var prevBtn = gallery.querySelector('.portfolio-gallery__arrow--prev');
-        var nextBtn = gallery.querySelector('.portfolio-gallery__arrow--next');
-
-        if (!track || !(track instanceof HTMLElement)) return;
-
-        var items = Array.prototype.slice
-          .call(track.querySelectorAll('.portfolio-gallery__item'))
-          .filter(function (el) {
-            return el instanceof HTMLElement;
-          });
-
-        if (items.length <= 1) {
-          if (prevBtn) prevBtn.setAttribute('hidden', 'true');
-          if (nextBtn) nextBtn.setAttribute('hidden', 'true');
-          gallery.dataset.galleryReady = 'true';
-          return;
-        }
-
-        var ticking = false;
-        var activeIndex = 0;
-        function updateArrows() {
-          if (!(prevBtn instanceof HTMLButtonElement) || !(nextBtn instanceof HTMLButtonElement)) return;
-          // Hide arrows on the true ends (first/last image), independent of padding/scroll math.
-          if (activeIndex <= 0) prevBtn.setAttribute('hidden', 'true');
-          else prevBtn.removeAttribute('hidden');
-
-          if (activeIndex >= items.length - 1) nextBtn.setAttribute('hidden', 'true');
-          else nextBtn.removeAttribute('hidden');
-        }
-
-        function updateActive() {
-          var center = track.scrollLeft + track.clientWidth / 2;
-          var closestIndex = 0;
-          var minDistance = Infinity;
-
-          for (var i = 0; i < items.length; i++) {
-            var item = items[i];
-            var itemCenter = item.offsetLeft + item.clientWidth / 2;
-            var distance = Math.abs(center - itemCenter);
-            if (distance < minDistance) {
-              minDistance = distance;
-              closestIndex = i;
-            }
-          }
-
-          items.forEach(function (item) {
-            item.classList.remove('is-active', 'is-left', 'is-right');
-          });
-
-          var active = items[closestIndex];
-          if (!active) return;
-
-          activeIndex = closestIndex;
-          active.classList.add('is-active');
-          if (items[closestIndex - 1]) items[closestIndex - 1].classList.add('is-left');
-          if (items[closestIndex + 1]) items[closestIndex + 1].classList.add('is-right');
-        }
-
-        function requestTick() {
-          if (ticking) return;
-          ticking = true;
-          requestAnimationFrame(function () {
-            ticking = false;
-            updateActive();
-            updateArrows();
-          });
-        }
-
-        function scrollByItem(direction) {
-          var active = track.querySelector('.portfolio-gallery__item.is-active');
-          var currentIndex = items.indexOf(active);
-          if (currentIndex === -1) currentIndex = 0;
-          var target = items[currentIndex + direction];
-          if (!(target instanceof HTMLElement)) return;
-          scrollToItem(track, target);
-        }
-
-        if (prevBtn instanceof HTMLButtonElement) {
-          prevBtn.removeAttribute('hidden');
-          prevBtn.addEventListener('click', function () {
-            scrollByItem(-1);
-          });
-        }
-
-        if (nextBtn instanceof HTMLButtonElement) {
-          nextBtn.removeAttribute('hidden');
-          nextBtn.addEventListener('click', function () {
-            scrollByItem(1);
-          });
-        }
-
-        track.addEventListener('scroll', requestTick, { passive: true });
-        window.addEventListener('resize', requestTick);
-
-        requestAnimationFrame(function () {
-          updateActive();
-          updateArrows();
-        });
-
-        gallery.dataset.galleryReady = 'true';
-      }
-
-      document.querySelectorAll('.portfolio-gallery').forEach(initGallery);
     });
   </script>
 </BaseLayout>
