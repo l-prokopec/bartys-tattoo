@@ -1,6 +1,39 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ExpandableText from '../components/ExpandableText.astro';
+import Gallery from "../components/Gallery.astro";
+import type { ImageMetadata } from "astro";
+
+const merchImages = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>(
+    "../assets/merch/*.{png,jpg,jpeg,webp,avif}",
+    { eager: true },
+  ),
+);
+
+const merchGallery = merchImages.map((image, index) => ({
+  src: image.default.src,
+  alt: `Merch ${index + 1}`,
+  width: image.default.width,
+  height: image.default.height,
+}));
 ---
+
 <BaseLayout title="Bartys Tattoo - Merch">
-    <h1><a href="https://tattoo-care.cz/unisex-tricko-moth-skull/">Objednej si tričko!</a></h1>
+  <ExpandableText>
+  <p>
+    Ve spolupráci s @tattoocare jsme pro vás vypustili tričko s originálním
+    návrhem. Design spojuje lebku s rohy, oči a křídla můry do jedné harmonické
+    kompozice. Černobílá ilustrace vyzařuje sílu, tajemství a rovnováhu mezi
+    životem a smrtí. Kvalitní bavlněné tričko s precizním potiskem je ideální
+    volbou pro milovníky originální grafiky, tetování a temnější estetiky.
+  </p>
+  </ExpandableText>
+  <p>
+    Objednávat můžeš na
+    <a href="https://tattoo-care.cz/unisex-tricko-moth-skull/">tattoo-care.cz</a>
+    .
+  </p>
+
+  <Gallery images={merchGallery} label="Merch galerie" />
 </BaseLayout>
