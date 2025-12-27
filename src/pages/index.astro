@@ -1,9 +1,42 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import type { ImageMetadata } from 'astro';
+
+const imageEntries = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/index/*.{png,jpg,jpeg,webp,avif}',
+  { eager: true }
+);
+
+const imageMap = Object.fromEntries(
+  Object.entries(imageEntries).map(([path, mod]) => {
+    const name = path.split('/').pop()?.split('.')[0];
+    return [name ?? path, mod.default];
+  })
+) as Record<string, ImageMetadata>;
+
+const tiles = [
+  { href: './portfolio', title: 'Portfolio', imageKey: 'portfolio' },
+  { href: './contact', title: 'Kontakt', imageKey: 'contact' },
+  { href: './studio', title: 'Studio', imageKey: 'studio' },
+  { href: './merch', title: 'Merch', imageKey: 'merch' },
+  { href: './about', title: 'O mně', imageKey: 'about' }
+];
 ---
 <BaseLayout title="Bartys Tattoo">
-    <p>
-        Vítej na oficiálních stránkách Bartys Tattoo. Poznej můj příběh, načerpej inspiraci z
-        mého portfolia, nebo se mi rovnou ozvi a domluv si termín!
-    </p>
+    <section class="index-tiles" aria-label="Rozcestník">
+        {tiles.map((tile, index) => {
+          const image = imageMap[tile.imageKey];
+          const style = image ? `--tile-image: url('${image.src}')` : undefined;
+          return (
+            <a
+              class={`index-tile${index === 0 ? ' index-tile--wide' : ''}`}
+              href={tile.href}
+              style={style}
+              aria-label={tile.title}
+            >
+              <span class="index-tile__title">{tile.title}</span>
+            </a>
+          );
+        })}
+    </section>
 </BaseLayout>
