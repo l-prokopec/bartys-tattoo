@@ -42,4 +42,191 @@
             });
         });
     }
-</script> <main>  <h1><a href="https://tattoo-care.cz/unisex-tricko-moth-skull/">Objednej si tričko!</a></h1>  </main> </body></html>
+</script> <main>  <div class="expandable-text"> <div class="portfolio-description" data-expanded="false">  <p>
+Ve spolupráci s @tattoocare jsme pro vás vypustili tričko s originálním
+    návrhem. Design spojuje lebku s rohy, oči a křídla můry do jedné harmonické
+    kompozice. Černobílá ilustrace vyzařuje sílu, tajemství a rovnováhu mezi
+    životem a smrtí. Kvalitní bavlněné tričko s precizním potiskem je ideální
+    volbou pro milovníky originální grafiky, tetování a temnější estetiky.
+</p>  </div> <button class="portfolio-toggle" type="button" data-label-more="Více" data-label-less="Méně"> Více </button> </div> <script>
+  (function () {
+    function initExpandable(root) {
+      if (!(root instanceof HTMLElement)) return;
+      if (root.dataset.expandableReady === 'true') return;
+
+      var description = root.querySelector('.portfolio-description');
+      var toggleButton = root.querySelector('.portfolio-toggle');
+
+      if (!description || !toggleButton) return;
+      if (!(description instanceof HTMLElement)) return;
+      if (!(toggleButton instanceof HTMLButtonElement)) return;
+
+      var labelMore = toggleButton.dataset.labelMore || 'Více';
+      var labelLess = toggleButton.dataset.labelLess || 'Méně';
+
+      var releasePress = function () {
+        toggleButton.classList.remove('is-pressed');
+      };
+
+      toggleButton.addEventListener('pointerdown', function () {
+        toggleButton.classList.add('is-pressed');
+      });
+      ['pointerup', 'pointerleave', 'pointercancel', 'blur'].forEach(function (eventName) {
+        toggleButton.addEventListener(eventName, releasePress);
+      });
+
+      toggleButton.addEventListener('click', function () {
+        var isExpanded = description.dataset.expanded === 'true';
+        description.dataset.expanded = isExpanded ? 'false' : 'true';
+        toggleButton.textContent = isExpanded ? labelMore : labelLess;
+        releasePress();
+      });
+
+      root.dataset.expandableReady = 'true';
+    }
+
+    var root = document.currentScript && document.currentScript.previousElementSibling;
+    if (root && root.classList.contains('expandable-text')) {
+      initExpandable(root);
+      return;
+    }
+
+    document.querySelectorAll('.expandable-text').forEach(initExpandable);
+  })();
+</script> <p>
+Objednávat můžeš na
+<a href="https://tattoo-care.cz/unisex-tricko-moth-skull/">tattoo-care.cz</a>
+.
+</p> <div class="portfolio-gallery" aria-label="Merch galerie"> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--prev" type="button" aria-label="Předchozí obrázek">
+←
+</button> <div class="portfolio-gallery__track"> <figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/merch-01.Dy0I2tWY.jpeg" alt="Merch 1" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/merch-02.QXm0cxKm.jpeg" alt="Merch 2" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/merch-03.D6D27mdu.jpeg" alt="Merch 3" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/merch-04.kRyqf446.jpeg" alt="Merch 4" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/merch-05.CJ_aJmXm.jpeg" alt="Merch 5" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/merch-06.8UoGoOic.jpeg" alt="Merch 6" loading="lazy" class="portfolio-gallery__image"> </figure><figure class="portfolio-gallery__item"> <img src="/bartys-tattoo/_astro/merch-07.DNgTuozb.jpeg" alt="Merch 7" loading="lazy" class="portfolio-gallery__image"> </figure> </div> <button class="portfolio-gallery__arrow portfolio-gallery__arrow--next" type="button" aria-label="Další obrázek">
+→
+</button> </div> <script>
+  (function () {
+    function getCenteredScrollLeft(trackEl, itemEl) {
+      return itemEl.offsetLeft - (trackEl.clientWidth - itemEl.clientWidth) / 2;
+    }
+
+    function scrollToItem(trackEl, itemEl) {
+      trackEl.scrollTo({
+        left: getCenteredScrollLeft(trackEl, itemEl),
+        behavior: 'smooth'
+      });
+    }
+
+    function initGallery(gallery) {
+      if (!(gallery instanceof HTMLElement)) return;
+      if (gallery.dataset.galleryReady === 'true') return;
+
+      var track = gallery.querySelector('.portfolio-gallery__track');
+      var prevBtn = gallery.querySelector('.portfolio-gallery__arrow--prev');
+      var nextBtn = gallery.querySelector('.portfolio-gallery__arrow--next');
+
+      if (!track || !(track instanceof HTMLElement)) return;
+
+      var items = Array.prototype.slice
+        .call(track.querySelectorAll('.portfolio-gallery__item'))
+        .filter(function (el) {
+          return el instanceof HTMLElement;
+        });
+
+      if (items.length <= 1) {
+        if (prevBtn) prevBtn.setAttribute('hidden', 'true');
+        if (nextBtn) nextBtn.setAttribute('hidden', 'true');
+        gallery.dataset.galleryReady = 'true';
+        return;
+      }
+
+      var ticking = false;
+      var activeIndex = 0;
+
+      function updateArrows() {
+        if (!(prevBtn instanceof HTMLButtonElement) || !(nextBtn instanceof HTMLButtonElement)) return;
+        if (activeIndex <= 0) prevBtn.setAttribute('hidden', 'true');
+        else prevBtn.removeAttribute('hidden');
+
+        if (activeIndex >= items.length - 1) nextBtn.setAttribute('hidden', 'true');
+        else nextBtn.removeAttribute('hidden');
+      }
+
+      function updateActive() {
+        var center = track.scrollLeft + track.clientWidth / 2;
+        var closestIndex = 0;
+        var minDistance = Infinity;
+
+        for (var i = 0; i < items.length; i++) {
+          var item = items[i];
+          var itemCenter = item.offsetLeft + item.clientWidth / 2;
+          var distance = Math.abs(center - itemCenter);
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestIndex = i;
+          }
+        }
+
+        items.forEach(function (item) {
+          item.classList.remove('is-active', 'is-left', 'is-right');
+        });
+
+        var active = items[closestIndex];
+        if (!active) return;
+
+        activeIndex = closestIndex;
+        active.classList.add('is-active');
+        if (items[closestIndex - 1]) items[closestIndex - 1].classList.add('is-left');
+        if (items[closestIndex + 1]) items[closestIndex + 1].classList.add('is-right');
+      }
+
+      function requestTick() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+          ticking = false;
+          updateActive();
+          updateArrows();
+        });
+      }
+
+      function scrollByItem(direction) {
+        var active = track.querySelector('.portfolio-gallery__item.is-active');
+        var currentIndex = items.indexOf(active);
+        if (currentIndex === -1) currentIndex = 0;
+        var target = items[currentIndex + direction];
+        if (!(target instanceof HTMLElement)) return;
+        scrollToItem(track, target);
+      }
+
+      if (prevBtn instanceof HTMLButtonElement) {
+        prevBtn.removeAttribute('hidden');
+        prevBtn.addEventListener('click', function () {
+          scrollByItem(-1);
+        });
+      }
+
+      if (nextBtn instanceof HTMLButtonElement) {
+        nextBtn.removeAttribute('hidden');
+        nextBtn.addEventListener('click', function () {
+          scrollByItem(1);
+        });
+      }
+
+      track.addEventListener('scroll', requestTick, { passive: true });
+      window.addEventListener('resize', requestTick);
+
+      requestAnimationFrame(function () {
+        updateActive();
+        updateArrows();
+      });
+
+      gallery.dataset.galleryReady = 'true';
+    }
+
+    var gallery = document.currentScript && document.currentScript.previousElementSibling;
+    if (gallery && gallery.classList.contains('portfolio-gallery')) {
+      initGallery(gallery);
+      return;
+    }
+
+    document.querySelectorAll('.portfolio-gallery').forEach(initGallery);
+  })();
+</script>  </main> </body></html>
