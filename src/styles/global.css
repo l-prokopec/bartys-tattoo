@@ -64,8 +64,8 @@ body::before {
 
 main {
     width: var(--content-width);
-    margin: var(--spacing-lg) auto;
-    padding: var(--spacing-lg) var(--spacing-md);
+    margin: var(--spacing-md) auto;
+    padding: var(--spacing-md) var(--spacing-md) var(--spacing-md);
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: 18px;
@@ -106,7 +106,7 @@ h2 {
 .index-tiles {
     display: grid;
     gap: var(--spacing-md);
-    margin-top: var(--spacing-sm);
+    margin-top: 0;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     --index-tile-height: 150px;
 }
@@ -342,7 +342,8 @@ img, video {
     }
 
     main {
-        padding: var(--spacing-lg) var(--spacing-md);
+        margin: var(--spacing-md) auto;
+        padding: var(--spacing-md) var(--spacing-md) var(--spacing-md);
     }
 
     .nav-toggle {
