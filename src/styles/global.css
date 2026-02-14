@@ -223,7 +223,7 @@ h2 {
 
 .site-header {
     width: var(--content-width);
-    margin: var(--spacing-md) auto var(--spacing-sm);
+    margin: 0 auto 0;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -238,6 +238,7 @@ h2 {
     justify-content: center;
     flex: 0 0 auto;
     border-radius: 14px;
+    margin-top: calc(var(--spacing-xs));
     margin-bottom: calc(var(--spacing-xs) * 0.5);
     outline: none;
     -webkit-tap-highlight-color: transparent;
@@ -359,7 +360,7 @@ img, video {
     }
 
     .site-header {
-        padding: 0.8rem 0 0.5rem;
+        padding: 0 0 0.5rem;
         min-height: auto;
         margin: 0 auto 0;
         display: grid;
@@ -375,7 +376,7 @@ img, video {
         grid-row: 1;
         width: 100%;
         justify-content: center;
-        margin: 0;
+        margin: calc(var(--spacing-xs)) 0 0;
     }
 
     .site-brand__logo {
