@@ -41,6 +41,7 @@ html, body {
 }
 
 body {
+    padding-top: env(safe-area-inset-top);
     min-height: 100vh;
     background: var(--color-bg-gradient);
     background-color: var(--color-bg);
@@ -916,3 +917,4 @@ img, video {
         aspect-ratio: 4 / 3;
     }
 }
+
