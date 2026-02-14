@@ -160,7 +160,7 @@ h2 {
     font-family: var(--font-heading);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    font-size: clamp(0.95rem, 1.2vw, 1.2rem);
+    font-size: clamp(0.95rem, 0.92rem + 0.3vw, 1.05rem);
     padding: 0.4rem 0.85rem;
     border-radius: 999px;
     background: rgba(6, 6, 7, 0.75);
