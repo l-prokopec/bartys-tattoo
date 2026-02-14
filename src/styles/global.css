@@ -40,11 +40,15 @@ html, body {
     padding: 0;
 }
 
+html {
+    background: var(--color-bg-gradient);
+    background-color: var(--color-bg);
+}
+
 body {
     padding-top: env(safe-area-inset-top);
     min-height: 100vh;
-    background: var(--color-bg-gradient);
-    background-color: var(--color-bg);
+    background: transparent;
     color: var(--color-text);
     font-family: var(--font-body);
     font-size: clamp(0.95rem, 0.9rem + 0.35vw, 1.05rem);
