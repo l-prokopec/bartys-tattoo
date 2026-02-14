@@ -1,8 +1,21 @@
 ---
+import logo from '../assets/header/logo.png';
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <header class="site-header">
+    <a class="site-brand" href={`${base}/`} aria-label="Bartys Tattoo - domu">
+        <img
+            class="site-brand__logo"
+            src={logo.src}
+            width={logo.width}
+            height={logo.height}
+            alt="Bartys Tattoo logo"
+            loading="eager"
+            decoding="async"
+        />
+    </a>
     <nav class="site-nav" data-open="false">
         <ul>
             <li><a href={`${base}/`}>Úvodní stránka</a></li>
