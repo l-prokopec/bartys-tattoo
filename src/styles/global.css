@@ -36,19 +36,16 @@
 }
 
 html, body {
+    padding-top: env(safe-area-inset-top);
     margin: 0;
     padding: 0;
-}
-
-html {
-    background: var(--color-bg-gradient);
-    background-color: var(--color-bg);
 }
 
 body {
     padding-top: env(safe-area-inset-top);
     min-height: 100vh;
-    background: transparent;
+    background: var(--color-bg-gradient);
+    background-color: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-body);
     font-size: clamp(0.95rem, 0.9rem + 0.35vw, 1.05rem);
@@ -561,6 +558,7 @@ img, video {
 }
 
 .portfolio-style__body {
+    padding-top: env(safe-area-inset-top);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
